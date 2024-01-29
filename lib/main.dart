@@ -61,15 +61,6 @@ class MyHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    // Container(
-                    //   color: Colors.black12,
-                    //   padding: const EdgeInsets.all(0.0),
-                    //   margin: EdgeInsets.zero,
-                    //
-                    //   child: Icon(
-                    //     Icons.computer, color: Colors.deepOrange.shade300,size: 40,),
-                    // ),
-
                     Text(
                       'Mr',
                       style:
@@ -115,10 +106,10 @@ class MyHomePage extends StatelessWidget {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     shape: const StadiumBorder(),
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Colors.green,
                   ),
                   child: Text(
-                    'Contact Us',
+                    'WhatsApp',
                     style: GoogleFonts.lora(fontSize: 15, color: Colors.white),
                   ),
                 ),
@@ -170,7 +161,7 @@ class MyHomePage extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'Computer teacher and Flutter dev . ',
+                        'Computer teacher and Flutter developer. ',
                         style: GoogleFonts.cairo(
                             color: Colors.black,
                             fontSize: 20,
@@ -197,10 +188,10 @@ class MyHomePage extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              backgroundColor: Colors.orange,
+                              backgroundColor: Colors.green.shade300,
                             ),
                             child: Text(
-                              'Contact Us',
+                              'WhatsApp',
                               style: GoogleFonts.lora(
                                   fontSize: 15, color: Colors.white),
                             ),
@@ -215,7 +206,7 @@ class MyHomePage extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(
                                     Icons.play_circle,
-                                    color: Colors.orange,
+                                    color: Colors.red,
                                     size: 35,
                                   ),
                                   onPressed: () {
@@ -335,7 +326,66 @@ class MyHomePage extends StatelessWidget {
                                   MaterialButton(
                                     minWidth: 120,
                                     color: Colors.orange,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      //
+
+                                      //
+                                      showDialog(
+                                          context: (context),
+                                          builder: (context) => AlertDialog(
+                                                // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                elevation: 10,
+
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(30.0),
+                                                      child: Image(
+                                                          image: AssetImage(
+                                                              'images/${programList[index].image}'),
+                                                          width: 160),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 20),
+                                                      child: Text(
+                                                        programList[index].title,
+                                                        style:
+                                                            GoogleFonts.lobster(
+                                                          fontSize: 30,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 15),
+                                                      child: Wrap(children: [
+                                                        Text(
+                                                          programList[index]
+                                                              .details,
+                                                          maxLines:
+                                                              2, //2 or more line you want
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        )
+                                                      ]),
+                                                    ),
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  MaterialButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    color: Colors.green,
+                                                    child: const Text('Ok'),
+                                                  )
+                                                ],
+                                              ));
+                                    },
                                     child: const Text(
                                       'Read more',
                                       style: TextStyle(color: Colors.white),
@@ -382,7 +432,7 @@ class MyHomePage extends StatelessWidget {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                            'Khalid Khattab',
+                            'Abo Alhaytham',
                             style: GoogleFonts.cairo(
                                 color: Colors.orange,
                                 fontSize: 45,
@@ -425,10 +475,10 @@ class MyHomePage extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               shape: const StadiumBorder(),
-                              backgroundColor: Colors.orange,
+                              backgroundColor: Colors.green.shade200,
                             ),
                             child: Text(
-                              'Contact Us',
+                              'WhatsApp',
                               style: GoogleFonts.lora(
                                   fontSize: 15, color: Colors.white),
                             ),
