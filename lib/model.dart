@@ -31,6 +31,22 @@ List<MyProgram> programList=[
 ];
 
 
+
+class MyProject{
+  late String title;
+  late String image;
+  late String details;
+  late Color color;
+
+  MyProject({required  this.title,required  this.image,required  this.details, required this.color});
+}
+
+List<MyProject> projectList=[
+  MyProject(title: 'School Alarm', image: 'Flutter.png', details: 'details Here', color: Colors.orange.shade100),
+  MyProject(title: 'Student File', image: 'Flutter.png', details: 'details Here', color: Colors.blueGrey.shade100),
+  MyProject(title: 'Mr Hasob Site', image: 'Flutter.png', details: 'details Here', color: Colors.teal.shade100),
+];
+
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
@@ -39,3 +55,4 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
     PointerDeviceKind.mouse,
   };
 }
+
