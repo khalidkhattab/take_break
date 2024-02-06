@@ -101,7 +101,7 @@ class MyDeskTop extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'Computer teacher and Flutter developer. ',
+                        'Computer  teacher and Flutter developer. ',
                         style: GoogleFonts.cairo(
                             color: Colors.black,
                             fontSize: 20,
