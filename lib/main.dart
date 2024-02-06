@@ -1,11 +1,25 @@
 
-import 'package:first_app/mobile.dart';
+
+// import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/model.dart';
+import 'package:first_app/takeoff.dart';
 import 'package:flutter/material.dart';
-import 'package:first_app/desktop.dart';
 
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyCxyFbiW-Xcu_dB8QHHb9xSG8XFbHPiaGU",
+        authDomain: "take-break-8b0b1.firebaseapp.com",
+        projectId: "take-break-8b0b1",
+        storageBucket: "take-break-8b0b1.appspot.com",
+        messagingSenderId: "91082181665",
+        appId: "1:91082181665:web:e12824f0170fbdc2076760",
+        measurementId: "G-JJ66KFZVRP"),
+  );
   runApp(const MyApp());
 }
 
@@ -39,7 +53,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:currentWidth>900?const MyDeskTop():const MyMobile() ,
+      home:const TakeOff(),
+      // currentWidth>900?const MyDeskTop():const MyMobile() ,
     );
   }
 }

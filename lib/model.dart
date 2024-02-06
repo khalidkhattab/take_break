@@ -42,9 +42,9 @@ class MyProject{
 }
 
 List<MyProject> projectList=[
-  MyProject(title: 'School Alarm', image: 'Flutter.png', details: 'details Here', color: Colors.orange.shade100),
-  MyProject(title: 'Student File', image: 'Flutter.png', details: 'details Here', color: Colors.blueGrey.shade100),
-  MyProject(title: 'Mr Hasob Site', image: 'Flutter.png', details: 'details Here', color: Colors.teal.shade100),
+  MyProject(title: 'School Alarm', image: 'Flutter.png', details: 'Not available now', color: Colors.orange.shade100),
+  MyProject(title: 'Student File', image: 'Flutter.png', details: 'Not available now', color: Colors.blueGrey.shade100),
+  MyProject(title: 'Mr Hasob Site', image: 'Flutter.png', details: 'Not available now', color: Colors.teal.shade100),
 ];
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
