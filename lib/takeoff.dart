@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class TakeOff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map> all_teacher=[];
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -48,8 +48,24 @@ class TakeOff extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
-                FirebaseFirestore.instance.collection('collectionPath').doc("").snapshots();
+                // FirebaseFirestore.instance.collection('dep').doc('2000').set(
+                //     {
+                //       'title':"Math"
+                //
+                //     }).then((onValue){
+                //
+                //
+                // }).catchError((onError){
+                //   print(onError.toString());
+                // });
                 //new
+
+                FirebaseFirestore.instance.collection('dep').doc('1000').collection('teachers').get().then((value){
+                  value.docs.forEach((elelment){
+                    all_teacher.add(elelment.data());
+                  });
+                print(all_teacher);
+                });
               },
               style: ElevatedButton.styleFrom(
                 shape: const StadiumBorder(),
