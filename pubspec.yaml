@@ -43,6 +43,10 @@ dependencies:
   cloud_firestore: ^5.4.2
 
 
+  bloc:
+  flutter_bloc:
+
+
 #  firebase_auth: ^4.0.2
 #  bloc: ^8.1.0
 #  flutter_bloc: ^8.1.1

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -54,5 +55,36 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
     PointerDeviceKind.touch,
     PointerDeviceKind.mouse,
   };
+}
+
+List<Map<String,dynamic>> all_teacher=[];
+
+
+
+class TeacherBreak{
+
+late String tName;
+late String tDepartment;
+late String tCid;
+late DateTime date;
+late DateTime exitTime;
+late DateTime returnTime;
+late String notes;
+late int count;
+
+TeacherBreak.name(this.tName, this.tDepartment, this.tCid, this.date,
+      this.exitTime, this.returnTime, this.notes, this.count);
+
+TeacherBreak.fromJson(Map<String,dynamic> json){
+  tName=json['tName'];
+  tDepartment=json['tDepartment'];
+  tCid=json['tCid'];
+  date=json['date'];
+  exitTime=json['exitTime'];
+  returnTime=json['returnTime'];
+  notes=json['notes'];
+  count=json['count'];
+}
+
 }
 

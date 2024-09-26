@@ -1,12 +1,11 @@
-
-
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:first_app/bloc/cubit.dart';
 import 'package:first_app/model.dart';
 import 'package:first_app/takeoff.dart';
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'bloc/cubit_observer.dart';
+import 'bloc/cubit_status.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,42 +19,39 @@ void main() async {
         appId: "1:91082181665:web:e12824f0170fbdc2076760",
         measurementId: "G-JJ66KFZVRP"),
   );
-  runApp(const MyApp());
+  Bloc.observer = MyBlocObserver();
+  runApp(
+    BlocProvider(
+        create: (BuildContext context) => TeakBreakCubit()..getTeacherData(),
+        child: MaterialApp(
+          scrollBehavior: MyCustomScrollBehavior(),
+          debugShowCheckedModeBanner: false,
+          title: 'Take Break',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const MyApp(),
+        )),
+  );
 }
 
+//MyApp()
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final currentWidth=MediaQuery.of(context).size.width;
-    return MaterialApp(
-      scrollBehavior: MyCustomScrollBehavior(),
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:const TakeOff(),
-      // currentWidth>900?const MyDeskTop():const MyMobile() ,
-    );
+    return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
+        builder: (BuildContext context, state) {
+          return const TakeOff();
+        },
+        listener: (context, state) {
+         if (state is GetTeacherDataLoadingState){
+           const CircularProgressIndicator();
+         }
+        });
+    // currentWidth>900?const MyDeskTop():const MyMobile() ,
   }
 }
-
