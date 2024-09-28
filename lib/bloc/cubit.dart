@@ -1,33 +1,53 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:first_app/model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cubit_status.dart';
 
-class TeakBreakCubit extends Cubit<TakeBreakStatus>{
+class TeakBreakCubit extends Cubit<TakeBreakStatus> {
+  TeakBreakCubit() : super(TakeBreakInitStatus());
 
-  TeakBreakCubit(): super(TakeBreakInitStatus());
+  static TeakBreakCubit get(context) => BlocProvider.of(context);
 
+  List<Map<String, dynamic>> allTeacher = [];
 
-  static TeakBreakCubit get(context)=>BlocProvider.of(context);
-
- List<Map<String, dynamic>> allTeacher=[];
-
-  getTeacherData(){
+  getTeacherData() {
     emit(GetTeacherDataLoadingState());
-    FirebaseFirestore.instance.collection('dep').doc('1000').collection('teachers').get().then((value){
-      allTeacher=[];
+    FirebaseFirestore.instance
+        .collection('dep')
+        .doc('1000')
+        .collection('teachers')
+        .get()
+        .then((value) {
+      allTeacher = [];
       for (var action in value.docs) {
         // print(action.data());
         allTeacher.add(action.data());
         print(allTeacher);
         emit(GetTeacherDataSuccessState());
       }
-    }).catchError((error){
+    }).catchError((error) {
       emit(GetTeacherDataErrorState());
     });
   }
 
-
+  addNewTeacher({required String cid , required String name, required String fileNum,required int nesab}) {
+    emit(GetTeacherDataLoadingState());
+    FirebaseFirestore.instance
+        .collection('dep')
+        .doc('1000')
+        .collection('teachers')
+        .doc(cid)
+        .set({
+      'cid': cid,
+      'file_num': '20232',
+      'name': 'all',
+      'nesab': 6
+    }).then((val) {
+      getTeacherData();
+      emit(AddTeacherDataSuccessState());
+    }).catchError((error) {
+      emit(AddTeacherDataErrorState());
+    });
+  }
 }

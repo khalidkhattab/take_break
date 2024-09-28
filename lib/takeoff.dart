@@ -78,7 +78,7 @@ class TakeOff extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconButton(onPressed: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const TakeOff()));
+               cubit.addNewTeacher(cid: '212222882', fileNum: '8888', name: 'Haytham',  nesab: 4);
               }, icon: const Icon(Icons.timer, color: Colors.red,)),
             )
           ],
@@ -251,6 +251,7 @@ class TakeOff extends StatelessWidget {
                     ],
                   ),
                 ),
+             cubit.allTeacher.isNotEmpty?
                 Container(
                   alignment: Alignment.center,
                   height: 350,
@@ -366,7 +367,7 @@ class TakeOff extends StatelessWidget {
                           ),
                         ),
                       )),
-                ),
+                ):  CircularProgressIndicator(),
                 //about me
                 Container(
                   width: double.infinity,
