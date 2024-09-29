@@ -3,11 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 List<String> program=[
-  'Visual Basic',
-  'Python',
-  'C++',
-  'Flutter',
-  'Dart'
+  'اضافة موظف',
+  'تسجيل اذن',
+  'استعراض اذن',
+  'احصائيات',
+  'من نحن'
 
 ];
 

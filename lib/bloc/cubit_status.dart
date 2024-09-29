@@ -13,3 +13,8 @@ class GetTeacherDataErrorState extends TakeBreakStatus{}
 class AddTeacherDataLoadingState extends TakeBreakStatus{}
 class AddTeacherDataSuccessState extends TakeBreakStatus{}
 class AddTeacherDataErrorState extends TakeBreakStatus{}
+
+
+class DeleteTeacherDataLoadingState extends TakeBreakStatus{}
+class DeleteTeacherDataSuccessState extends TakeBreakStatus{}
+class DeleteTeacherDataErrorState extends TakeBreakStatus{}

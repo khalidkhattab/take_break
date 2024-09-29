@@ -4,6 +4,7 @@ import 'package:first_app/model.dart';
 import 'package:first_app/takeoff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'bloc/cubit_observer.dart';
 import 'bloc/cubit_status.dart';
 
@@ -23,16 +24,8 @@ void main() async {
   runApp(
     BlocProvider(
         create: (BuildContext context) => TeakBreakCubit()..getTeacherData(),
-        child: MaterialApp(
-          scrollBehavior: MyCustomScrollBehavior(),
-          debugShowCheckedModeBanner: false,
-          title: 'Take Break',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: const MyApp(),
-        )),
+        child: const MyApp(),
+        ),
   );
 }
 
@@ -43,15 +36,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
-        builder: (BuildContext context, state) {
-          return const TakeOff();
-        },
-        listener: (context, state) {
-         if (state is GetTeacherDataLoadingState){
-           const CircularProgressIndicator();
-         }
-        });
+    return MaterialApp(
+      scrollBehavior: MyCustomScrollBehavior(),
+      debugShowCheckedModeBanner: false,
+      title: 'Take Break',
+      theme:ThemeData.light().copyWith(
+         textTheme: GoogleFonts.cairoPlayTextTheme(
+           Theme.of(context).textTheme,
+         )
+      ),
+      home:  BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
+          builder: (BuildContext context, state) {
+            return const TakeOff();
+          },
+          listener: (context, state) {
+           if (state is GetTeacherDataLoadingState){
+             const CircularProgressIndicator();
+           }
+          }),
+    );
     // currentWidth>900?const MyDeskTop():const MyMobile() ,
   }
 }
