@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_app/model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cubit_status.dart';
@@ -31,23 +30,40 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
-  addNewTeacher({required String cid , required String name, required String fileNum,required int nesab}) {
+  addNewTeacher(
+      {required String cid,
+      required String name,
+      required String fileNum,
+      required int nesab}) {
     emit(GetTeacherDataLoadingState());
     FirebaseFirestore.instance
         .collection('dep')
         .doc('1000')
         .collection('teachers')
         .doc(cid)
-        .set({
-      'cid': cid,
-      'file_num': '20232',
-      'name': 'all',
-      'nesab': 6
-    }).then((val) {
+        .set({'cid': cid, 'file_num': '20232', 'name': 'all', 'nesab': 6}).then(
+            (val) {
       getTeacherData();
       emit(AddTeacherDataSuccessState());
     }).catchError((error) {
       emit(AddTeacherDataErrorState());
+    });
+  }
+
+  Future<void> deleteTeacher(String cid) async {
+    emit(DeleteTeacherDataLoadingState());
+    await FirebaseFirestore.instance
+        .collection('dep')
+        .doc('1000')
+        .collection('teachers')
+        .doc(cid)
+        .delete()
+        .then((val) {
+
+      emit(DeleteTeacherDataSuccessState());
+      getTeacherData();
+    }).catchError((error) {
+      emit(DeleteTeacherDataErrorState());
     });
   }
 }
