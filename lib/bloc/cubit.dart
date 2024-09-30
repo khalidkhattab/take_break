@@ -59,9 +59,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .doc(cid)
         .delete()
         .then((val) {
-
-      emit(DeleteTeacherDataSuccessState());
       getTeacherData();
+      emit(DeleteTeacherDataSuccessState());
     }).catchError((error) {
       emit(DeleteTeacherDataErrorState());
     });
