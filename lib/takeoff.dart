@@ -249,9 +249,7 @@ class TakeOff extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 30, vertical: 30),
                             child: InkWell(
-                              onTap: (){
-                                showDialog(context: context, builder: (context)=>NewAlertDialog(cubit: cubit, index: index));
-                              },
+                              onTap: (){},
                               child: Text(
                                 program[index],
                                 style:const TextStyle(fontSize: 30),
