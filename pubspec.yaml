@@ -94,10 +94,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
 #  fonts:
-#     - family: Cairo
-#       fonts:
-#         - asset: font/Cairo.ttf
-#           weight: 300
+#    - family: Cairo
+#      fonts:
+#        - asset: font/Cairo.ttf
+#          weight: 300
 
 
 

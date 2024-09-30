@@ -52,22 +52,22 @@ class TakeOff extends StatelessWidget {
               actions: [
                 (state is GetTeacherDataLoadingState)
                     ?
-                    // const CircularProgressIndicator(
-                    //
-                    //   color: Colors.deepOrange,
-                    //
-                    // )
-                    const LoadingIndicator(
-                        indicatorType: Indicator.orbit,
-                        colors: [Colors.deepOrange],
+                // const CircularProgressIndicator(
+                //
+                //   color: Colors.deepOrange,
+                //
+                // )
+                const LoadingIndicator(
+                  indicatorType: Indicator.orbit,
+                  colors: [Colors.deepOrange],
 
-                        /// Optional, The color collections
-                        strokeWidth: 1,
+                  /// Optional, The color collections
+                  strokeWidth: 1,
 
-                        /// Optional, The stroke of the line, only applicable to widget which contains line
-                        // backgroundColor: Colors.black,      /// Optional, Background of the widget
-                        // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
-                      )
+                  /// Optional, The stroke of the line, only applicable to widget which contains line
+                  // backgroundColor: Colors.black,      /// Optional, Background of the widget
+                  // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
+                )
                     : const Text(''),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -95,7 +95,7 @@ class TakeOff extends StatelessWidget {
                     child: Text(
                       'test2',
                       style:
-                          GoogleFonts.lora(fontSize: 15, color: Colors.white),
+                      GoogleFonts.lora(fontSize: 15, color: Colors.white),
                     ),
                   ),
                 ),
@@ -246,16 +246,20 @@ class TakeOff extends StatelessWidget {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 30),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    program[index],
-                                    style: const TextStyle(fontSize: 30),
-                                  ),
-                                ),
-                              )),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 30),
+                            child: InkWell(
+                              onTap: (){
+                                showDialog(context: context, builder: (context)=>NewAlertDialog(cubit: cubit, index: index));
+                              },
+                              child: Text(
+                                program[index],
+                                style:const TextStyle(fontSize: 30),
+
+
+                              ),
+                            ),
+                          )),
                     ),
                     Center(
                       child: Column(
@@ -296,92 +300,156 @@ class TakeOff extends StatelessWidget {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 30),
+                              child: Card(
+                                child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 30, vertical: 30),
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15),
-                                      child: Stack(
-                                        children: [
-                                          SizedBox(
-                                            width: 250,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                const Image(
-                                                    image: AssetImage(
-                                                        'images/c++.png'),
-                                                    width: 80),
+                                      vertical: 15),
+                                  child: Stack(
+                                    children: [
+                                      SizedBox(
+                                        width: 250,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: [
+                                            const Image(
+                                                image: AssetImage(
+                                                    'images/c++.png'),
+                                                width: 80),
+                                            Text(
+                                              cubit.allTeacher[index]
+                                              ['name'],
+                                              style: GoogleFonts.lobster(
+                                                fontSize: 22,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                  horizontal: 15),
+                                              child: Wrap(children: [
                                                 Text(
                                                   cubit.allTeacher[index]
-                                                      ['name'],
-                                                  style: GoogleFonts.lobster(
-                                                    fontSize: 22,
-                                                    color: Colors.grey,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 15),
-                                                  child: Wrap(children: [
-                                                    Text(
-                                                      cubit.allTeacher[index]
-                                                          ['cid'],
-                                                      maxLines:
-                                                          2, //2 or more line you want
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    )
-                                                  ]),
-                                                ),
-                                                MaterialButton(
-                                                  minWidth: 120,
-                                                  color: Colors.orange,
-                                                  onPressed: () {
-                                                    //
-
-                                                    //
-                                                    showDialog(
-                                                        context: (context),
-                                                        builder: (context) =>
-                                                            NewAlertDialog(
-                                                              cubit: cubit,
-                                                              index: index,
-                                                            ));
-                                                  },
-                                                  child: const Text(
-                                                    'Read more',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
+                                                  ['cid'],
+                                                  maxLines:
+                                                  2, //2 or more line you want
+                                                  overflow:
+                                                  TextOverflow.ellipsis,
                                                 )
-                                              ],
+                                              ]),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 1, horizontal: 5),
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  cubit.deleteTeacher(
-                                                      cubit.allTeacher[index]
-                                                          ['cid']);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                )),
-                                          )
-                                        ],
+                                            MaterialButton(
+                                              minWidth: 120,
+                                              color: Colors.orange,
+                                              onPressed: () {
+                                                //
+
+                                                //
+                                                showDialog(
+                                                    context: (context),
+                                                    builder:
+                                                        (context) =>
+                                                        AlertDialog(
+                                                          // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                          elevation: 10,
+
+                                                          content:
+                                                          Column(
+                                                            mainAxisSize:
+                                                            MainAxisSize
+                                                                .min,
+                                                            children: [
+                                                              const Padding(
+                                                                padding:
+                                                                EdgeInsets.all(30.0),
+                                                                child: Image(
+                                                                    image:
+                                                                    AssetImage('images/c++.png'),
+                                                                    width: 160),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                    20),
+                                                                child:
+                                                                Text(
+                                                                  cubit.allTeacher[index]
+                                                                  [
+                                                                  'name'],
+                                                                  style:
+                                                                  GoogleFonts.lobster(
+                                                                    fontSize:
+                                                                    30,
+                                                                    color:
+                                                                    Colors.grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                    15),
+                                                                child: Wrap(
+                                                                    children: [
+                                                                      Text(
+                                                                        cubit.allTeacher[index]['cid'],
+                                                                        maxLines: 2, //2 or more line you want
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                      )
+                                                                    ]),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          actions: [
+                                                            MaterialButton(
+                                                              onPressed:
+                                                                  () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              color: Colors
+                                                                  .green,
+                                                              child: const Text(
+                                                                  'Ok'),
+                                                            )
+                                                          ],
+                                                        ));
+                                              },
+                                              child: const Text(
+                                                'Read more',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 1, horizontal: 5),
+                                        child: IconButton(
+                                            onPressed: () {
+                                              cubit.deleteTeacher(
+                                                  cubit.allTeacher[index]
+                                                  ['cid']);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            )),
+                                      )
+                                    ],
                                   ),
-                                )),
+                                ),
+                              ),
+                            )),
                       )
                     else
                       Column(
@@ -539,138 +607,138 @@ class TakeOff extends StatelessWidget {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 30),
+                            child: Card(
+                              color: projectList[index].color,
+                              child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 30),
-                                child: Card(
-                                  color: projectList[index].color,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: SizedBox(
-                                      width: 250,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Image(
-                                              image: AssetImage(
-                                                  'images/${projectList[index].image}'),
-                                              width: 80),
-                                          Text(
-                                            projectList[index].title,
-                                            style: GoogleFonts.lobster(
-                                              fontSize: 30,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            child: Wrap(children: [
-                                              Text(
-                                                projectList[index].details,
-                                                maxLines:
-                                                    2, //2 or more line you want
-                                                overflow: TextOverflow.ellipsis,
-                                              )
-                                            ]),
-                                          ),
-                                          MaterialButton(
-                                            minWidth: 120,
-                                            color: Colors.orange,
-                                            onPressed: () {
-                                              //
-
-                                              //
-                                              showDialog(
-                                                  context: (context),
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                        elevation: 10,
-
-                                                        content: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      30.0),
-                                                              child: Image(
-                                                                  image: AssetImage(
-                                                                      'images/${projectList[index].image}'),
-                                                                  width: 160),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      vertical:
-                                                                          20),
-                                                              child: Text(
-                                                                projectList[
-                                                                        index]
-                                                                    .title,
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .lobster(
-                                                                  fontSize: 30,
-                                                                  color: Colors
-                                                                      .grey,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          15),
-                                                              child: Wrap(
-                                                                  children: [
-                                                                    Text(
-                                                                      projectList[
-                                                                              index]
-                                                                          .details,
-                                                                      maxLines:
-                                                                          2, //2 or more line you want
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                    )
-                                                                  ]),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        actions: [
-                                                          MaterialButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            color: Colors.green,
-                                                            child: const Text(
-                                                                'Ok'),
-                                                          )
-                                                        ],
-                                                      ));
-                                            },
-                                            child: const Text(
-                                              'Read more',
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          )
-                                        ],
+                                    vertical: 15),
+                                child: SizedBox(
+                                  width: 250,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
+                                      Image(
+                                          image: AssetImage(
+                                              'images/${projectList[index].image}'),
+                                          width: 80),
+                                      Text(
+                                        projectList[index].title,
+                                        style: GoogleFonts.lobster(
+                                          fontSize: 30,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Wrap(children: [
+                                          Text(
+                                            projectList[index].details,
+                                            maxLines:
+                                            2, //2 or more line you want
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        ]),
+                                      ),
+                                      MaterialButton(
+                                        minWidth: 120,
+                                        color: Colors.orange,
+                                        onPressed: () {
+                                          //
+
+                                          //
+                                          showDialog(
+                                              context: (context),
+                                              builder: (context) =>
+                                                  AlertDialog(
+                                                    // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                    elevation: 10,
+
+                                                    content: Column(
+                                                      mainAxisSize:
+                                                      MainAxisSize.min,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .all(
+                                                              30.0),
+                                                          child: Image(
+                                                              image: AssetImage(
+                                                                  'images/${projectList[index].image}'),
+                                                              width: 160),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              vertical:
+                                                              20),
+                                                          child: Text(
+                                                            projectList[
+                                                            index]
+                                                                .title,
+                                                            style:
+                                                            GoogleFonts
+                                                                .lobster(
+                                                              fontSize: 30,
+                                                              color: Colors
+                                                                  .grey,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal:
+                                                              15),
+                                                          child: Wrap(
+                                                              children: [
+                                                                Text(
+                                                                  projectList[
+                                                                  index]
+                                                                      .details,
+                                                                  maxLines:
+                                                                  2, //2 or more line you want
+                                                                  overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                                )
+                                                              ]),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    actions: [
+                                                      MaterialButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        color: Colors.green,
+                                                        child: const Text(
+                                                            'Ok'),
+                                                      )
+                                                    ],
+                                                  ));
+                                        },
+                                        child: const Text(
+                                          'Read more',
+                                          style: TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              )),
+                              ),
+                            ),
+                          )),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -694,9 +762,9 @@ class TakeOff extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 100),
                                   child: Column(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'contact Me',
@@ -761,5 +829,3 @@ class TakeOff extends StatelessWidget {
         listener: (context, states) {});
   }
 }
-
-
