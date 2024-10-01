@@ -259,17 +259,17 @@ class TakeOff extends StatelessWidget {
                             ),
                           )),
                     ),
-                    Center(
+                    const Center(
                       child: Column(
-                        children: [
+                        children:[
                           Padding(
-                            padding: const EdgeInsets.all(15.0),
+                            padding:  EdgeInsets.all(15.0),
                             child: Text(
                               'بيانات المعلمين',
-                              style: GoogleFonts.cairo(
-                                  color: Colors.black,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
+                              style:TextStyle(
+                                fontSize: 30
+
+                              )
                             ),
                           ),
                           // Text(
@@ -434,9 +434,25 @@ class TakeOff extends StatelessWidget {
                                             vertical: 1, horizontal: 5),
                                         child: IconButton(
                                             onPressed: () {
-                                              cubit.deleteTeacher(
-                                                  cubit.allTeacher[index]
-                                                  ['cid']);
+                                              showDialog(context: context, builder: (context)=> AlertDialog(
+                                                actions: [
+                                                  MaterialButton(onPressed: (){
+                                                    cubit.deleteTeacher(
+                                                        cubit.allTeacher[index]
+                                                        ['cid']).then((val){
+
+                                                          Navigator.pop(context);
+                                                    });
+                                                  },
+                                                  child: Text("موافق"),
+                                                  )
+
+
+                                                ],
+
+                                                title: Text('انت على وشك حذف معلم، هل تريد الاستمرار؟'),
+                                              ));
+                                       
                                             },
                                             icon: const Icon(
                                               Icons.delete,
