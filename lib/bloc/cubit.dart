@@ -11,6 +11,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   List<Map<String, dynamic>> allTeacher = [];
 
   getTeacherData() {
+    allTeacher = [];
     emit(GetTeacherDataLoadingState());
     FirebaseFirestore.instance
         .collection('dep')
@@ -18,7 +19,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .collection('teachers')
         .get()
         .then((value) {
-      allTeacher = [];
+
       for (var action in value.docs) {
         // print(action.data());
         allTeacher.add(action.data());
@@ -59,8 +60,9 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .doc(cid)
         .delete()
         .then((val) {
-      getTeacherData();
+
       emit(DeleteTeacherDataSuccessState());
+      getTeacherData();
     }).catchError((error) {
       emit(DeleteTeacherDataErrorState());
     });

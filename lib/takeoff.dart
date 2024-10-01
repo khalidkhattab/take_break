@@ -239,22 +239,34 @@ class TakeOff extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      height: 120,
+                      height: 100,
                       color: Colors.blueGrey.shade100,
                       child: ListView.builder(
                           itemCount: program.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 30),
-                            child: InkWell(
-                              onTap: (){},
-                              child: Text(
-                                program[index],
-                                style:const TextStyle(fontSize: 30),
+                            padding: const EdgeInsets.all(5.0),
+                            child: Card(
+                              elevation: 10,
+
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: InkWell(
+                                  onTap: (){},
+                                  child: Container(
+                                    width: 150,
+                                    alignment: AlignmentDirectional.center,
+                                    child: Text(
+
+                                      program[index],
+                                      style:const TextStyle(fontSize: 22),
 
 
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           )),
@@ -267,25 +279,8 @@ class TakeOff extends StatelessWidget {
                             child: Text(
                               'بيانات المعلمين',
                               style:TextStyle(
-                                fontSize: 30
+                                fontSize: 30)))
 
-                              )
-                            ),
-                          ),
-                          // Text(
-                          //   'Computer teacher and Flutter dev . ',
-                          //   style: GoogleFonts.cairo(
-                          //       color: Colors.grey,
-                          //       fontSize: 20,
-                          //       fontWeight: FontWeight.bold),
-                          // ),
-                          // Text(
-                          //   'More than 14 years of experience in teaching computer science. ',
-                          //   style: GoogleFonts.cairo(
-                          //       color: Colors.grey,
-                          //       fontSize: 16,
-                          //       fontWeight: FontWeight.bold),
-                          // ),
                         ],
                       ),
                     ),
@@ -301,6 +296,7 @@ class TakeOff extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 30),
                               child: Card(
+                                elevation: 15,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 15),
@@ -435,22 +431,38 @@ class TakeOff extends StatelessWidget {
                                         child: IconButton(
                                             onPressed: () {
                                               showDialog(context: context, builder: (context)=> AlertDialog(
+                                                elevation: 10,
                                                 actions: [
-                                                  MaterialButton(onPressed: (){
-                                                    cubit.deleteTeacher(
-                                                        cubit.allTeacher[index]
-                                                        ['cid']).then((val){
+                                                  Center(
+                                                    child: MaterialButton(onPressed: (){
+                                                      cubit.deleteTeacher(
+                                                          cubit.allTeacher[index]
+                                                          ['cid']).then((val){
 
-                                                          Navigator.pop(context);
-                                                    });
-                                                  },
-                                                  child: Text("موافق"),
+                                                            Navigator.pop(context);
+                                                      });
+                                                    },
+                                                    child:const Text("موافق"),
+                                                    ),
                                                   )
 
 
                                                 ],
 
-                                                title: Text('انت على وشك حذف معلم، هل تريد الاستمرار؟'),
+                                                title:Container(
+                                                  alignment: Alignment.bottomCenter,
+
+                                                  height: 150,
+
+                                                  child: const Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Text('انت على وشك حذف معلم', style: TextStyle(fontSize: 25),),
+                                                      SizedBox(height: 20,),
+                                                      Text(' هل تريد الاستمرار؟', style: TextStyle(fontSize: 25, color: Colors.red),)
+                                                    ],
+                                                  ),
+                                                ),
                                               ));
                                        
                                             },
