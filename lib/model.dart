@@ -1,3 +1,4 @@
+import 'package:first_app/poppages/add_new_teacher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +11,11 @@ List<String> program = [
 ];
 
 List<Map<String, dynamic>> menuBar = [
-  {'title': 'اضافة موظف', 'screen': Widget},
-  {'title': 'تسجيل الاذن', 'screen': Widget},
-  {'title': 'استعراض اذن', 'screen': Widget},
-  {'title': 'إحصائيات', 'screen': Widget},
-  {'title': 'من نحن', 'screen': Widget},
+  {'title': 'اضافة موظف', 'screen': const NewTeacherWidget()},
+  {'title': 'تسجيل الاذن', 'screen':const Text('null')},
+  {'title': 'استعراض اذن', 'screen': const Text('null')},
+  {'title': 'إحصائيات', 'screen': const Text('null')},
+  {'title': 'من نحن', 'screen': const Text('null')},
 ];
 
 class MyProgram {

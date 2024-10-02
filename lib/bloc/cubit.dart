@@ -76,4 +76,9 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
       emit(DeleteTeacherDataErrorState());
     });
   }
+
+
+  Future<void> addBreak(String cid) async{
+
+  }
 }

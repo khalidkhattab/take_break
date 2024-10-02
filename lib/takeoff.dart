@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
+import 'package:first_app/poppages/add_new_teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,13 +20,7 @@ class TakeOff extends StatelessWidget {
           final cubit = TeakBreakCubit.get(context);
 
           //Text Form for Adding Teacher
-          TextEditingController teacherNameController = TextEditingController();
-          TextEditingController teacherTitleController = TextEditingController();
-          late TextEditingController teacherCidController = TextEditingController();
-          TextEditingController teacherFileNumberController = TextEditingController();
-          TextEditingController teacherDepartController = TextEditingController();
-          TextEditingController teacherHairDateController = TextEditingController();
-          TextEditingController teacherNesabController = TextEditingController();
+
 
 
           return Scaffold(
@@ -266,94 +261,13 @@ class TakeOff extends StatelessWidget {
                                       onTap: () {
                                         showDialog(
                                             context: context,
-                                            builder: (context) =>
-                                                AlertDialog.adaptive(
-                                                  title: const Center(
-                                                      child:
-                                                          Text('إضافة معلم')),
-                                                  actions: [
-                                                    MaterialButton(
-                                                      color: Colors.green,
-                                                      onPressed: (){
-                                                        cubit.addNewTeacher(
-                                                            cid: teacherCidController.text,
-                                                            name:teacherNameController.text,
-                                                            title: teacherTitleController.text,
-                                                            fileNumber: teacherFileNumberController.text,
-                                                            dep: teacherDepartController.text,
-                                                            hairDate: teacherHairDateController.text,
-                                                            nesab: teacherNesabController.text).then((value){
-                                                              Navigator.pop(context);
-                                                        });
-
-                                                    },
-                                                    child:const Text('حفظ', style: TextStyle( color: Colors.white, fontWeight:FontWeight.bold ),),
-                                                    )
-                                                  ],
-                                                  actionsAlignment:
-                                                      MainAxisAlignment.center,
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      TextFormAlarm(
-                                                          controller:
-                                                              teacherNameController,
-                                                          label: 'الاسم',
-                                                          password: false,
-                                                          alert:
-                                                              'يجب ادحال اسم المعلم'),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherTitleController,
-                                                          label: 'المسمي',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادخال المسمى الوظيفي'),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherCidController,
-                                                          label: 'الرقم المدني',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادحال الرقم المدني'),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherFileNumberController,
-                                                          label: 'رقم الملف',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادحال رقم الملف '),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherDepartController,
-                                                          label: 'القسم',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادحال القسم'),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherHairDateController,
-                                                          label: 'تاريخ التعيين',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادحال تاريخ التعيين'),
-                                                      TextFormAlarm(
-                                                          controller:
-                                                          teacherNesabController,
-                                                          label: 'النصاب',
-                                                          password: false,
-                                                          alert:
-                                                          'يجب ادحال النصاب'),
-                                                    ],
-                                                  ),
-                                                ));
+                                            builder: (context) => menuBar[index]['screen']);
                                       },
                                       child: Container(
                                         width: 150,
                                         alignment: AlignmentDirectional.center,
                                         child: Text(
-                                          program[index],
+                                          menuBar[index]['title'],
                                           style: const TextStyle(fontSize: 22),
                                         ),
                                       ),
@@ -966,3 +880,4 @@ class TakeOff extends StatelessWidget {
         listener: (context, states) {});
   }
 }
+
