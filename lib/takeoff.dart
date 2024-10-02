@@ -18,6 +18,16 @@ class TakeOff extends StatelessWidget {
         builder: (BuildContext context, state) {
           final cubit = TeakBreakCubit.get(context);
 
+          //Text Form for Adding Teacher
+          TextEditingController teacherNameController = TextEditingController();
+          TextEditingController teacherTitleController = TextEditingController();
+          late TextEditingController teacherCidController = TextEditingController();
+          TextEditingController teacherFileNumberController = TextEditingController();
+          TextEditingController teacherDepartController = TextEditingController();
+          TextEditingController teacherHairDateController = TextEditingController();
+          TextEditingController teacherNesabController = TextEditingController();
+
+
           return Scaffold(
             appBar: AppBar(
               title: Row(
@@ -52,22 +62,22 @@ class TakeOff extends StatelessWidget {
               actions: [
                 (state is GetTeacherDataLoadingState)
                     ?
-                // const CircularProgressIndicator(
-                //
-                //   color: Colors.deepOrange,
-                //
-                // )
-                const LoadingIndicator(
-                  indicatorType: Indicator.orbit,
-                  colors: [Colors.deepOrange],
+                    // const CircularProgressIndicator(
+                    //
+                    //   color: Colors.deepOrange,
+                    //
+                    // )
+                    const LoadingIndicator(
+                        indicatorType: Indicator.orbit,
+                        colors: [Colors.deepOrange],
 
-                  /// Optional, The color collections
-                  strokeWidth: 1,
+                        /// Optional, The color collections
+                        strokeWidth: 1,
 
-                  /// Optional, The stroke of the line, only applicable to widget which contains line
-                  // backgroundColor: Colors.black,      /// Optional, Background of the widget
-                  // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
-                )
+                        /// Optional, The stroke of the line, only applicable to widget which contains line
+                        // backgroundColor: Colors.black,      /// Optional, Background of the widget
+                        // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
+                      )
                     : const Text(''),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -95,7 +105,7 @@ class TakeOff extends StatelessWidget {
                     child: Text(
                       'test2',
                       style:
-                      GoogleFonts.lora(fontSize: 15, color: Colors.white),
+                          GoogleFonts.lora(fontSize: 15, color: Colors.white),
                     ),
                   ),
                 ),
@@ -103,11 +113,11 @@ class TakeOff extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                       onPressed: () {
-                        cubit.addNewTeacher(
-                            cid: '212222882',
-                            fileNum: '8888',
-                            name: 'Haytham',
-                            nesab: 4);
+                        // cubit.addNewTeacher(
+                        //     cid: '212222882',
+                        //     fileNum: '8888',
+                        //     name: 'Haytham',
+                        //     nesab: 4);
                       },
                       icon: const Icon(
                         Icons.timer,
@@ -246,41 +256,119 @@ class TakeOff extends StatelessWidget {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Card(
-                              elevation: 10,
+                                padding: const EdgeInsets.all(5.0),
+                                child: Card(
+                                  elevation: 10,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                AlertDialog.adaptive(
+                                                  title: const Center(
+                                                      child:
+                                                          Text('إضافة معلم')),
+                                                  actions: [
+                                                    MaterialButton(
+                                                      color: Colors.green,
+                                                      onPressed: (){
+                                                        cubit.addNewTeacher(
+                                                            cid: teacherCidController.text,
+                                                            name:teacherNameController.text,
+                                                            title: teacherTitleController.text,
+                                                            fileNumber: teacherFileNumberController.text,
+                                                            dep: teacherDepartController.text,
+                                                            hairDate: teacherHairDateController.text,
+                                                            nesab: teacherNesabController.text).then((value){
+                                                              Navigator.pop(context);
+                                                        });
 
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: InkWell(
-                                  onTap: (){},
-                                  child: Container(
-                                    width: 150,
-                                    alignment: AlignmentDirectional.center,
-                                    child: Text(
-
-                                      program[index],
-                                      style:const TextStyle(fontSize: 22),
-
-
+                                                    },
+                                                    child:const Text('حفظ', style: TextStyle( color: Colors.white, fontWeight:FontWeight.bold ),),
+                                                    )
+                                                  ],
+                                                  actionsAlignment:
+                                                      MainAxisAlignment.center,
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      TextFormAlarm(
+                                                          controller:
+                                                              teacherNameController,
+                                                          label: 'الاسم',
+                                                          password: false,
+                                                          alert:
+                                                              'يجب ادحال اسم المعلم'),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherTitleController,
+                                                          label: 'المسمي',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادخال المسمى الوظيفي'),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherCidController,
+                                                          label: 'الرقم المدني',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادحال الرقم المدني'),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherFileNumberController,
+                                                          label: 'رقم الملف',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادحال رقم الملف '),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherDepartController,
+                                                          label: 'القسم',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادحال القسم'),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherHairDateController,
+                                                          label: 'تاريخ التعيين',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادحال تاريخ التعيين'),
+                                                      TextFormAlarm(
+                                                          controller:
+                                                          teacherNesabController,
+                                                          label: 'النصاب',
+                                                          password: false,
+                                                          alert:
+                                                          'يجب ادحال النصاب'),
+                                                    ],
+                                                  ),
+                                                ));
+                                      },
+                                      child: Container(
+                                        width: 150,
+                                        alignment: AlignmentDirectional.center,
+                                        child: Text(
+                                          program[index],
+                                          style: const TextStyle(fontSize: 22),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )),
+                              )),
                     ),
                     const Center(
                       child: Column(
-                        children:[
+                        children: [
                           Padding(
-                            padding:  EdgeInsets.all(15.0),
-                            child: Text(
-                              'بيانات المعلمين',
-                              style:TextStyle(
-                                fontSize: 30)))
-
+                              padding: EdgeInsets.all(15.0),
+                              child: Text('بيانات المعلمين',
+                                  style: TextStyle(fontSize: 30)))
                         ],
                       ),
                     ),
@@ -293,189 +381,212 @@ class TakeOff extends StatelessWidget {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 30),
-                              child: Card(
-                                elevation: 15,
-                                child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 15),
-                                  child: Stack(
-                                    children: [
-                                      SizedBox(
-                                        width: 250,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: [
-                                            const Image(
-                                                image: AssetImage(
-                                                    'images/c++.png'),
-                                                width: 80),
-                                            Text(
-                                              cubit.allTeacher[index]
-                                              ['name'],
-                                              style: GoogleFonts.lobster(
-                                                fontSize: 22,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets
-                                                  .symmetric(
-                                                  horizontal: 15),
-                                              child: Wrap(children: [
+                                      horizontal: 30, vertical: 30),
+                                  child: Card(
+                                    elevation: 15,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 15),
+                                      child: Stack(
+                                        children: [
+                                          SizedBox(
+                                            width: 250,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                const Image(
+                                                    image: AssetImage(
+                                                        'images/c++.png'),
+                                                    width: 80),
                                                 Text(
                                                   cubit.allTeacher[index]
-                                                  ['cid'],
-                                                  maxLines:
-                                                  2, //2 or more line you want
-                                                  overflow:
-                                                  TextOverflow.ellipsis,
-                                                )
-                                              ]),
-                                            ),
-                                            MaterialButton(
-                                              minWidth: 120,
-                                              color: Colors.orange,
-                                              onPressed: () {
-                                                //
-
-                                                //
-                                                showDialog(
-                                                    context: (context),
-                                                    builder:
-                                                        (context) =>
-                                                        AlertDialog(
-                                                          // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                          elevation: 10,
-
-                                                          content:
-                                                          Column(
-                                                            mainAxisSize:
-                                                            MainAxisSize
-                                                                .min,
-                                                            children: [
-                                                              const Padding(
-                                                                padding:
-                                                                EdgeInsets.all(30.0),
-                                                                child: Image(
-                                                                    image:
-                                                                    AssetImage('images/c++.png'),
-                                                                    width: 160),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                    20),
-                                                                child:
-                                                                Text(
-                                                                  cubit.allTeacher[index]
-                                                                  [
-                                                                  'name'],
-                                                                  style:
-                                                                  GoogleFonts.lobster(
-                                                                    fontSize:
-                                                                    30,
-                                                                    color:
-                                                                    Colors.grey,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding: const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                    15),
-                                                                child: Wrap(
-                                                                    children: [
-                                                                      Text(
-                                                                        cubit.allTeacher[index]['cid'],
-                                                                        maxLines: 2, //2 or more line you want
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                      )
-                                                                    ]),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          actions: [
-                                                            MaterialButton(
-                                                              onPressed:
-                                                                  () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              color: Colors
-                                                                  .green,
-                                                              child: const Text(
-                                                                  'Ok'),
-                                                            )
-                                                          ],
-                                                        ));
-                                              },
-                                              child: const Text(
-                                                'Read more',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 1, horizontal: 5),
-                                        child: IconButton(
-                                            onPressed: () {
-                                              showDialog(context: context, builder: (context)=> AlertDialog(
-                                                elevation: 10,
-                                                actions: [
-                                                  Center(
-                                                    child: MaterialButton(onPressed: (){
-                                                      cubit.deleteTeacher(
-                                                          cubit.allTeacher[index]
-                                                          ['cid']).then((val){
-
-                                                            Navigator.pop(context);
-                                                      });
-                                                    },
-                                                    child:const Text("موافق"),
-                                                    ),
-                                                  )
-
-
-                                                ],
-
-                                                title:Container(
-                                                  alignment: Alignment.bottomCenter,
-
-                                                  height: 150,
-
-                                                  child: const Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Text('انت على وشك حذف معلم', style: TextStyle(fontSize: 25),),
-                                                      SizedBox(height: 20,),
-                                                      Text(' هل تريد الاستمرار؟', style: TextStyle(fontSize: 25, color: Colors.red),)
-                                                    ],
+                                                      ['name'],
+                                                  style: GoogleFonts.lobster(
+                                                    fontSize: 22,
+                                                    color: Colors.grey,
                                                   ),
                                                 ),
-                                              ));
-                                       
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                            )),
-                                      )
-                                    ],
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 15),
+                                                  child: Wrap(children: [
+                                                    Text(
+                                                      cubit.allTeacher[index]
+                                                          ['cid'],
+                                                      maxLines:
+                                                          2, //2 or more line you want
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    )
+                                                  ]),
+                                                ),
+                                                MaterialButton(
+                                                  minWidth: 120,
+                                                  color: Colors.orange,
+                                                  onPressed: () {
+                                                    //
+
+                                                    //
+                                                    showDialog(
+                                                        context: (context),
+                                                        builder:
+                                                            (context) =>
+                                                                AlertDialog(
+                                                                  // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                                  elevation: 10,
+
+                                                                  content:
+                                                                      Column(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .min,
+                                                                    children: [
+                                                                      const Padding(
+                                                                        padding:
+                                                                            EdgeInsets.all(30.0),
+                                                                        child: Image(
+                                                                            image:
+                                                                                AssetImage('images/c++.png'),
+                                                                            width: 160),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            vertical:
+                                                                                20),
+                                                                        child:
+                                                                            Text(
+                                                                          cubit.allTeacher[index]
+                                                                              [
+                                                                              'name'],
+                                                                          style:
+                                                                              GoogleFonts.lobster(
+                                                                            fontSize:
+                                                                                30,
+                                                                            color:
+                                                                                Colors.grey,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            horizontal:
+                                                                                15),
+                                                                        child: Wrap(
+                                                                            children: [
+                                                                              Text(
+                                                                                cubit.allTeacher[index]['cid'],
+                                                                                maxLines: 2, //2 or more line you want
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              )
+                                                                            ]),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  actions: [
+                                                                    MaterialButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      color: Colors
+                                                                          .green,
+                                                                      child: const Text(
+                                                                          'Ok'),
+                                                                    )
+                                                                  ],
+                                                                ));
+                                                  },
+                                                  child: const Text(
+                                                    'Read more',
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 1, horizontal: 5),
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder:
+                                                          (context) =>
+                                                              AlertDialog(
+                                                                elevation: 10,
+                                                                actions: [
+                                                                  Center(
+                                                                    child:
+                                                                        MaterialButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        cubit
+                                                                            .deleteTeacher(cubit.allTeacher[index]['cid'])
+                                                                            .then((val) {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        });
+                                                                      },
+                                                                      child: const Text(
+                                                                          "موافق"),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                                title:
+                                                                    Container(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .bottomCenter,
+                                                                  height: 150,
+                                                                  child:
+                                                                      const Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        'انت على وشك حذف معلم',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                25),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            20,
+                                                                      ),
+                                                                      Text(
+                                                                        ' هل تريد الاستمرار؟',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                25,
+                                                                            color:
+                                                                                Colors.red),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ));
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )),
+                                )),
                       )
                     else
                       Column(
@@ -633,138 +744,138 @@ class TakeOff extends StatelessWidget {
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 30),
-                            child: Card(
-                              color: projectList[index].color,
-                              child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 15),
-                                child: SizedBox(
-                                  width: 250,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                          image: AssetImage(
-                                              'images/${projectList[index].image}'),
-                                          width: 80),
-                                      Text(
-                                        projectList[index].title,
-                                        style: GoogleFonts.lobster(
-                                          fontSize: 30,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Wrap(children: [
+                                    horizontal: 30, vertical: 30),
+                                child: Card(
+                                  color: projectList[index].color,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    child: SizedBox(
+                                      width: 250,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image(
+                                              image: AssetImage(
+                                                  'images/${projectList[index].image}'),
+                                              width: 80),
                                           Text(
-                                            projectList[index].details,
-                                            maxLines:
-                                            2, //2 or more line you want
-                                            overflow: TextOverflow.ellipsis,
-                                          )
-                                        ]),
-                                      ),
-                                      MaterialButton(
-                                        minWidth: 120,
-                                        color: Colors.orange,
-                                        onPressed: () {
-                                          //
+                                            projectList[index].title,
+                                            style: GoogleFonts.lobster(
+                                              fontSize: 30,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            child: Wrap(children: [
+                                              Text(
+                                                projectList[index].details,
+                                                maxLines:
+                                                    2, //2 or more line you want
+                                                overflow: TextOverflow.ellipsis,
+                                              )
+                                            ]),
+                                          ),
+                                          MaterialButton(
+                                            minWidth: 120,
+                                            color: Colors.orange,
+                                            onPressed: () {
+                                              //
 
-                                          //
-                                          showDialog(
-                                              context: (context),
-                                              builder: (context) =>
-                                                  AlertDialog(
-                                                    // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                    elevation: 10,
+                                              //
+                                              showDialog(
+                                                  context: (context),
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                        elevation: 10,
 
-                                                    content: Column(
-                                                      mainAxisSize:
-                                                      MainAxisSize.min,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .all(
-                                                              30.0),
-                                                          child: Image(
-                                                              image: AssetImage(
-                                                                  'images/${projectList[index].image}'),
-                                                              width: 160),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              vertical:
-                                                              20),
-                                                          child: Text(
-                                                            projectList[
-                                                            index]
-                                                                .title,
-                                                            style:
-                                                            GoogleFonts
-                                                                .lobster(
-                                                              fontSize: 30,
-                                                              color: Colors
-                                                                  .grey,
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(
+                                                                      30.0),
+                                                              child: Image(
+                                                                  image: AssetImage(
+                                                                      'images/${projectList[index].image}'),
+                                                                  width: 160),
                                                             ),
-                                                          ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          20),
+                                                              child: Text(
+                                                                projectList[
+                                                                        index]
+                                                                    .title,
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .lobster(
+                                                                  fontSize: 30,
+                                                                  color: Colors
+                                                                      .grey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          15),
+                                                              child: Wrap(
+                                                                  children: [
+                                                                    Text(
+                                                                      projectList[
+                                                                              index]
+                                                                          .details,
+                                                                      maxLines:
+                                                                          2, //2 or more line you want
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    )
+                                                                  ]),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal:
-                                                              15),
-                                                          child: Wrap(
-                                                              children: [
-                                                                Text(
-                                                                  projectList[
-                                                                  index]
-                                                                      .details,
-                                                                  maxLines:
-                                                                  2, //2 or more line you want
-                                                                  overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                                )
-                                                              ]),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    actions: [
-                                                      MaterialButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        color: Colors.green,
-                                                        child: const Text(
-                                                            'Ok'),
-                                                      )
-                                                    ],
-                                                  ));
-                                        },
-                                        child: const Text(
-                                          'Read more',
-                                          style: TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                      )
-                                    ],
+                                                        actions: [
+                                                          MaterialButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            color: Colors.green,
+                                                            child: const Text(
+                                                                'Ok'),
+                                                          )
+                                                        ],
+                                                      ));
+                                            },
+                                            child: const Text(
+                                              'Read more',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )),
+                              )),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -788,9 +899,9 @@ class TakeOff extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 100),
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'contact Me',

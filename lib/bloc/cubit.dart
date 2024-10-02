@@ -19,7 +19,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .collection('teachers')
         .get()
         .then((value) {
-
       for (var action in value.docs) {
         // print(action.data());
         allTeacher.add(action.data());
@@ -31,19 +30,30 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
-  addNewTeacher(
-      {required String cid,
-      required String name,
-      required String fileNum,
-      required int nesab}) {
+  Future<void> addNewTeacher({
+    required String cid,
+    required String name,
+    required String title,
+    required String fileNumber,
+    required String dep,
+    required String hairDate,
+    required String nesab,
+  }) async {
     emit(GetTeacherDataLoadingState());
-    FirebaseFirestore.instance
+  await  FirebaseFirestore.instance
         .collection('dep')
         .doc('1000')
         .collection('teachers')
         .doc(cid)
-        .set({'cid': cid, 'file_num': '20232', 'name': 'all', 'nesab': 6}).then(
-            (val) {
+        .set({
+      'cid': cid,
+      'file_num': fileNumber,
+      'name': name,
+      'nesab': nesab,
+      'title': title,
+      'hairDate':hairDate,
+      'dep':dep
+    }).then((val) {
       getTeacherData();
       emit(AddTeacherDataSuccessState());
     }).catchError((error) {
@@ -60,7 +70,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .doc(cid)
         .delete()
         .then((val) {
-
       emit(DeleteTeacherDataSuccessState());
       getTeacherData();
     }).catchError((error) {
