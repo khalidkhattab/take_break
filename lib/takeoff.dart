@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
-import 'package:first_app/poppages/add_new_teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,13 +14,12 @@ class TakeOff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late TextEditingController teacherCidController = TextEditingController();
     return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
         builder: (BuildContext context, state) {
           final cubit = TeakBreakCubit.get(context);
 
           //Text Form for Adding Teacher
-
-
 
           return Scaffold(
             appBar: AppBar(
@@ -108,11 +106,28 @@ class TakeOff extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                       onPressed: () {
-                        // cubit.addNewTeacher(
-                        //     cid: '212222882',
-                        //     fileNum: '8888',
-                        //     name: 'Haytham',
-                        //     nesab: 4);
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            actions: [
+                              MaterialButton(
+                                onPressed: () {
+                                  cubit.getEmployeeData(
+                                      teacherCidController.text);
+                                },
+                                child: const Text('حفط'),
+                              )
+                            ],
+                            title:
+                                const Center(child: Text("ادخل الرقم المدني")),
+                            content: TextFormAlarm(
+                              alert: 'ادخل الرقم المدني',
+                              controller: teacherCidController,
+                              label: 'الرقم المدتي',
+                              password: false,
+                            ),
+                          ),
+                        );
                       },
                       icon: const Icon(
                         Icons.timer,
@@ -261,7 +276,8 @@ class TakeOff extends StatelessWidget {
                                       onTap: () {
                                         showDialog(
                                             context: context,
-                                            builder: (context) => menuBar[index]['screen']);
+                                            builder: (context) =>
+                                                menuBar[index]['screen']);
                                       },
                                       child: Container(
                                         width: 150,
@@ -314,8 +330,8 @@ class TakeOff extends StatelessWidget {
                                               children: [
                                                 const Image(
                                                     image: AssetImage(
-                                                        'images/c++.png'),
-                                                    width: 80),
+                                                        'images/me2.png'),
+                                                    width: 150),
                                                 Text(
                                                   cubit.allTeacher[index]
                                                       ['name'],
@@ -331,7 +347,7 @@ class TakeOff extends StatelessWidget {
                                                   child: Wrap(children: [
                                                     Text(
                                                       cubit.allTeacher[index]
-                                                          ['cid'],
+                                                          ['dep'],
                                                       maxLines:
                                                           2, //2 or more line you want
                                                       overflow:
@@ -880,4 +896,3 @@ class TakeOff extends StatelessWidget {
         listener: (context, states) {});
   }
 }
-

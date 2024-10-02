@@ -10,23 +10,39 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 
   List<Map<String, dynamic>> allTeacher = [];
 
+
+  //to store current employee cid to return his data and break time
+  late String currentCid='283021205454';
+
   getTeacherData() {
     allTeacher = [];
     emit(GetTeacherDataLoadingState());
-    FirebaseFirestore.instance
-        .collection('dep')
-        .doc('1000')
-        .collection('teachers')
-        .get()
-        .then((value) {
+    FirebaseFirestore.instance.collection('employee').get().then((value) {
       for (var action in value.docs) {
-        // print(action.data());
+        print(action.data());
         allTeacher.add(action.data());
         print(allTeacher);
         emit(GetTeacherDataSuccessState());
       }
     }).catchError((error) {
       emit(GetTeacherDataErrorState());
+    });
+  }
+
+  List<Map<String, dynamic>?> currentEmployee = [];
+  getEmployeeData(String cid) {
+    currentEmployee = [];
+    emit(GetCurrentEmployeeDataLoadingState());
+    FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .get()
+        .then((value) {
+      currentEmployee.add(value.data());
+      print(currentEmployee);
+      emit(GetCurrentEmployeeDataSuccessState());
+    }).catchError((error) {
+      emit(GetCurrentEmployeeDataErrorState());
     });
   }
 
@@ -40,19 +56,14 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String nesab,
   }) async {
     emit(GetTeacherDataLoadingState());
-  await  FirebaseFirestore.instance
-        .collection('dep')
-        .doc('1000')
-        .collection('teachers')
-        .doc(cid)
-        .set({
+    await FirebaseFirestore.instance.collection('employee').doc(cid).set({
       'cid': cid,
       'file_num': fileNumber,
       'name': name,
       'nesab': nesab,
       'title': title,
-      'hairDate':hairDate,
-      'dep':dep
+      'hairDate': hairDate,
+      'dep': dep
     }).then((val) {
       getTeacherData();
       emit(AddTeacherDataSuccessState());
@@ -64,9 +75,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   Future<void> deleteTeacher(String cid) async {
     emit(DeleteTeacherDataLoadingState());
     await FirebaseFirestore.instance
-        .collection('dep')
-        .doc('1000')
-        .collection('teachers')
+        .collection('employee')
         .doc(cid)
         .delete()
         .then((val) {
@@ -78,7 +87,46 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   }
 
 
-  Future<void> addBreak(String cid) async{
 
+  getDepart() {
+    FirebaseFirestore.instance.collection('dep').get().then((value) {
+      for (var val in value.docs) {
+        print(val.data());
+      }
+    });
+  }
+//we can store department in list of map
+//   {title: computer}
+//   {title: Math}
+
+
+
+  Future<void> addNewBreak({
+    required String cid,
+    required String name,
+    required String title,
+    required String fileNumber,
+    required String dep,
+    required String date,
+    required String leaveTime,
+    required String returnTime,
+  }) async {
+    emit(AddTeacherBreakLoadingState());
+    await FirebaseFirestore.instance.collection('employee').doc(cid).collection('ezn').doc().set({
+      'cid': cid,
+      'file_num': fileNumber,
+      'name': name,
+      'date': date,
+      'title': title,
+      'leaveTime': leaveTime,
+      'returnTime':returnTime,
+      'dep': dep,
+
+    }).then((val) {
+      getTeacherData();
+      emit(AddTeacherBreakSuccessState());
+    }).catchError((error) {
+      emit(AddTeacherBreakErrorState());
+    });
   }
 }

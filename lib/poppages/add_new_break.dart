@@ -6,11 +6,11 @@ import '../bloc/cubit_status.dart';
 import '../component.dart';
 
 class AddNewBreak extends StatelessWidget {
-  const AddNewBreak({super.key});
+  const AddNewBreak({super.key, required this.cid});
 
 
 
-
+final String cid;
 
 
   @override
@@ -21,6 +21,7 @@ class AddNewBreak extends StatelessWidget {
     late TextEditingController teacherCidController = TextEditingController();
     TextEditingController teacherFileNumberController = TextEditingController();
     TextEditingController teacherDepartController = TextEditingController();
+    TextEditingController breakDateController = TextEditingController();
     TextEditingController leaveTimeController = TextEditingController();
     TextEditingController returnTimeController = TextEditingController();
 
@@ -29,25 +30,22 @@ class AddNewBreak extends StatelessWidget {
        final cubit=TeakBreakCubit.get(context);
 
       return AlertDialog.adaptive(
-        title: const Center(child: Text('إضافة معلم')),
+        title: const Center(child: Text('إضافة اذن جديد')),
         actions: [
           MaterialButton(
             color: Colors.green,
             onPressed: () {
-              cubit
-                  .addNewTeacher(
-                  cid: teacherCidController.text,
-                  name: teacherNameController.text,
-                  title: teacherTitleController.text,
-                  fileNumber: teacherFileNumberController.text,
-                  dep: teacherDepartController.text,
-                  hairDate: leaveTimeController.text,
-                  nesab: returnTimeController.text)
-                  .then((value) {
 
-                Navigator.of(context).pop();
-              });
-            },
+             cubit.addNewBreak(
+                 cid: cid,
+                 name: teacherNameController.text,
+                 title: teacherTitleController.text,
+                 fileNumber: teacherFileNumberController.text,
+                 dep: teacherDepartController.text,
+                 date: breakDateController.text,
+                 leaveTime: leaveTimeController.text,
+                 returnTime: returnTimeController.text);
+                        },
             child: const Text(
               'حفظ',
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -59,40 +57,45 @@ class AddNewBreak extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormAlarm(
-                controller: teacherNameController,
+                controller: teacherNameController..text=cubit.currentEmployee[0]?['name'],
                 label: 'الاسم',
                 password: false,
                 alert: 'يجب ادحال اسم المعلم'),
             TextFormAlarm(
-                controller: teacherTitleController,
+                controller: teacherTitleController..text=cubit.currentEmployee[0]?['title'],
                 label: 'المسمي',
                 password: false,
                 alert: 'يجب ادخال المسمى الوظيفي'),
             TextFormAlarm(
-                controller: teacherCidController,
+                controller: teacherCidController..text=cubit.currentEmployee[0]?['cid'],
                 label: 'الرقم المدني',
                 password: false,
                 alert: 'يجب ادحال الرقم المدني'),
             TextFormAlarm(
-                controller: teacherFileNumberController,
+                controller: teacherFileNumberController..text=cubit.currentEmployee[0]?['file_num'],
                 label: 'رقم الملف',
                 password: false,
                 alert: 'يجب ادحال رقم الملف '),
             TextFormAlarm(
-                controller: teacherDepartController,
+                controller: teacherDepartController..text=cubit.currentEmployee[0]?['dep'],
                 label: 'القسم',
                 password: false,
                 alert: 'يجب ادحال القسم'),
             TextFormAlarm(
-                controller: returnTimeController,
-                label: 'تاريخ التعيين',
+                controller: breakDateController,
+                label: 'تاريخ الاذن',
+                password: false,
+                alert: 'يجب ادحال تاريخ الاذن'),
+            TextFormAlarm(
+                controller: leaveTimeController,
+                label: 'وقت المغادرة ',
                 password: false,
                 alert: 'يجب ادحال تاريخ التعيين'),
             TextFormAlarm(
                 controller: returnTimeController,
-                label: 'النصاب',
+                label: 'وقت العودة',
                 password: false,
-                alert: 'يجب ادحال النصاب'),
+                alert: 'يجب ادحال وقت العودة'),
           ],
         ),
       );

@@ -9,6 +9,12 @@ class GetTeacherDataSuccessState extends TakeBreakStatus{}
 class GetTeacherDataErrorState extends TakeBreakStatus{}
 
 
+class GetCurrentEmployeeDataLoadingState extends TakeBreakStatus{}
+class GetCurrentEmployeeDataSuccessState extends TakeBreakStatus{}
+class GetCurrentEmployeeDataErrorState extends TakeBreakStatus{}
+
+
+
 
 class AddTeacherDataLoadingState extends TakeBreakStatus{}
 class AddTeacherDataSuccessState extends TakeBreakStatus{}

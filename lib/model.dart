@@ -1,6 +1,9 @@
+import 'package:first_app/poppages/add_new_break.dart';
 import 'package:first_app/poppages/add_new_teacher.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'bloc/cubit.dart';
 
 List<String> program = [
   'اضافة موظف',
@@ -10,9 +13,10 @@ List<String> program = [
   'من نحن'
 ];
 
+
 List<Map<String, dynamic>> menuBar = [
   {'title': 'اضافة موظف', 'screen': const NewTeacherWidget()},
-  {'title': 'تسجيل الاذن', 'screen':const Text('null')},
+  {'title': 'تسجيل الاذن', 'screen': AddNewBreak(cid:TeakBreakCubit().currentCid)},
   {'title': 'استعراض اذن', 'screen': const Text('null')},
   {'title': 'إحصائيات', 'screen': const Text('null')},
   {'title': 'من نحن', 'screen': const Text('null')},
@@ -120,3 +124,4 @@ class TeacherBreak {
     count = json['count'];
   }
 }
+
