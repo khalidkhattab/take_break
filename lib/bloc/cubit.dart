@@ -10,6 +10,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 
   List<Map<String, dynamic>> allTeacher = [];
 
+  DateTime selectedDate = DateTime.now();
+
 
   //to store current employee cid to return his data and break time
   late String currentCid='283021205454';
@@ -129,4 +131,9 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
       emit(AddTeacherBreakErrorState());
     });
   }
+
+  screenRefresh(){
+    emit(RefreshState());
+  }
+
 }

@@ -21,7 +21,6 @@ class NewTeacherWidget extends StatelessWidget {
     late TextEditingController teacherCidController = TextEditingController();
     TextEditingController teacherFileNumberController = TextEditingController();
     TextEditingController teacherDepartController = TextEditingController();
-    TextEditingController teacherHairDateController = TextEditingController();
     TextEditingController teacherNesabController = TextEditingController();
 
     return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(builder: (context, state){
@@ -40,7 +39,7 @@ class NewTeacherWidget extends StatelessWidget {
                   title: teacherTitleController.text,
                   fileNumber: teacherFileNumberController.text,
                   dep: teacherDepartController.text,
-                  hairDate: teacherHairDateController.text,
+                  hairDate: "${cubit.selectedDate.day}-${cubit.selectedDate.month}-${cubit.selectedDate.year}",
                   nesab: teacherNesabController.text)
                   .then((value) {
 
@@ -82,11 +81,48 @@ class NewTeacherWidget extends StatelessWidget {
                 label: 'القسم',
                 password: false,
                 alert: 'يجب ادحال القسم'),
-            TextFormAlarm(
-                controller: teacherHairDateController,
-                label: 'تاريخ التعيين',
-                password: false,
-                alert: 'يجب ادحال تاريخ التعيين'),
+            // TextFormAlarm(
+            //     controller: teacherHairDateController,
+            //     label: 'تاريخ التعيين',
+            //     password: false,
+            //     alert: 'يجب ادحال تاريخ التعيين'),
+            Center(
+              child: Container(
+                height: 65,
+                width: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(color: Colors.green, spreadRadius: 1),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                  Text("${cubit.selectedDate.day}-${cubit.selectedDate.month}-${cubit.selectedDate.year}", style: TextStyle(fontSize: 18),),
+                  Column(
+                    children: [
+                      Text("تاريخ التعيين")
+                      ,
+                      IconButton(onPressed: (){
+
+                          showDatePicker(
+
+                            context: context,
+                            firstDate: DateTime(1990),
+                            lastDate: DateTime(2040),
+                          ).then((value){
+                            print(value);
+                            cubit.selectedDate=value!;
+                            cubit.screenRefresh();
+                          });
+                      }, icon:const Icon(Icons.date_range_outlined, color: Colors.deepOrange,size: 25,)),
+                    ],
+                  ),
+                ],),
+              ),
+            ),
             TextFormAlarm(
                 controller: teacherNesabController,
                 label: 'النصاب',

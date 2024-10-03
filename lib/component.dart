@@ -161,11 +161,21 @@ class TextFormAlarm extends StatelessWidget {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return alert;
+                    return "lease enter some text";
                   }
                   return null;
                 },
                 obscureText: password,
+                // onChanged: (date){
+                //   showDatePicker(
+                //     context: context,
+                //     firstDate: DateTime(2000),
+                //     lastDate: DateTime(2040),
+                //   ).then((value){
+                //     print(value);
+                //     date="${value?.day}-${value?.month}-${value?.year}";
+                //   });
+                // },
                 controller: controller,
                 decoration: InputDecoration(
                   label: Text(label),

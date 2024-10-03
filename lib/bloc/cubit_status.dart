@@ -28,3 +28,7 @@ class DeleteTeacherDataErrorState extends TakeBreakStatus{}
 class AddTeacherBreakLoadingState extends TakeBreakStatus{}
 class AddTeacherBreakSuccessState extends TakeBreakStatus{}
 class AddTeacherBreakErrorState extends TakeBreakStatus{}
+
+
+//only for test
+class RefreshState extends TakeBreakStatus{}
