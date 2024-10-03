@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
+import 'package:first_app/poppages/search_by_cid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,11 +56,6 @@ class TakeOff extends StatelessWidget {
               actions: [
                 (state is GetTeacherDataLoadingState)
                     ?
-                    // const CircularProgressIndicator(
-                    //
-                    //   color: Colors.deepOrange,
-                    //
-                    // )
                     const LoadingIndicator(
                         indicatorType: Indicator.orbit,
                         colors: [Colors.deepOrange],
@@ -108,33 +104,7 @@ class TakeOff extends StatelessWidget {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
-                            actions: [
-                              MaterialButton(
-                                onPressed: () {
-                                  cubit.getEmployeeData(
-                                      teacherCidController.text);
-                                  // showDatePicker(
-                                  //     context: context,
-                                  //     firstDate: DateTime(2000),
-                                  //     lastDate: DateTime(2040),
-                                  // ).then((value){
-                                  //   print(value);
-                                  //   print("${value?.day}-${value?.month}-${value?.year}");
-                                  // });
-                                },
-                                child: const Text('حفط'),
-                              )
-                            ],
-                            title:
-                                const Center(child: Text("ادخل الرقم المدني")),
-                            content: TextFormAlarm(
-                              alert: 'ادخل الرقم المدني',
-                              controller: teacherCidController,
-                              label: 'الرقم المدتي',
-                              password: false,
-                            ),
-                          ),
+                          builder: (context) => SearchByCid(cubit: cubit, ),
                         );
                       },
                       icon: const Icon(
@@ -142,7 +112,7 @@ class TakeOff extends StatelessWidget {
                         color: Colors.red,
                       )),
                 )
-              ],
+              ]
             ),
             body: SingleChildScrollView(
               child: Directionality(
@@ -904,3 +874,4 @@ class TakeOff extends StatelessWidget {
         listener: (context, states) {});
   }
 }
+

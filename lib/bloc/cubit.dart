@@ -32,10 +32,10 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   }
 
   List<Map<String, dynamic>?> currentEmployee = [];
-  getEmployeeData(String cid) {
+  Future getEmployeeData(String cid) async{
     currentEmployee = [];
     emit(GetCurrentEmployeeDataLoadingState());
-    FirebaseFirestore.instance
+  await  FirebaseFirestore.instance
         .collection('employee')
         .doc(cid)
         .get()
