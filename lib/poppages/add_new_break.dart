@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/cubit.dart';
 import '../bloc/cubit_status.dart';
 import '../component.dart';
+import '../takeoff.dart';
 
 class AddNewBreak extends StatelessWidget {
   const AddNewBreak({super.key, required this.cid});
@@ -34,15 +35,35 @@ class AddNewBreak extends StatelessWidget {
                 color: Colors.green,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    cubit.addNewBreak(
-                        cid: cid,
-                        name: teacherNameController.text,
-                        title: teacherTitleController.text,
-                        fileNumber: teacherFileNumberController.text,
-                        dep: teacherDepartController.text,
-                        date: breakDateController.text,
-                        leaveTime: leaveTimeController.text,
-                        returnTime: returnTimeController.text);
+                    cubit
+                        .addNewBreak(
+                            cid: cid,
+                            name: teacherNameController.text,
+                            title: teacherTitleController.text,
+                            fileNumber: teacherFileNumberController.text,
+                            dep: teacherDepartController.text,
+                            date: breakDateController.text,
+                            leaveTime: leaveTimeController.text,
+                            returnTime: returnTimeController.text)
+                        .then((value) {
+                      (state is AddTeacherBreakErrorState)
+                          ? showDialog(
+                              context: context,
+                              builder: (context) =>  AlertDialog(
+                                    title:const Text('Error'),
+                                actions: [
+                                  MaterialButton(onPressed: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child:const Text('Ok'),
+                                  )
+                                ],
+                                  ))
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TakeOff()));
+                    });
                   }
                 },
                 child: const Text(

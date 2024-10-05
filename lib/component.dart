@@ -161,7 +161,7 @@ class TextFormAlarm extends StatelessWidget {
               child: TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "lease enter some text";
+                    return alert;
                   }
                   return null;
                 },
