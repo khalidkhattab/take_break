@@ -5,6 +5,7 @@ import 'package:first_app/takeoff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'bloc/cubit_observer.dart';
 import 'bloc/cubit_status.dart';
 
@@ -23,9 +24,11 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   runApp(
     BlocProvider(
-        create: (BuildContext context) => TeakBreakCubit()..getTeacherData(),
-        child: const MyApp(),
-        ),
+      create: (BuildContext context) => TeakBreakCubit()
+        ..getTeacherData()
+        ..getEmployeeData('283021205454'),
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -40,20 +43,27 @@ class MyApp extends StatelessWidget {
       scrollBehavior: MyCustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
       title: 'Take Break',
-      theme:ThemeData.light().copyWith(
-         textTheme: GoogleFonts.cairoPlayTextTheme(
-           Theme.of(context).textTheme,
-         )
-      ),
-      home:  BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
+      theme: ThemeData.light().copyWith(
+          textTheme: GoogleFonts.cairoPlayTextTheme(
+        Theme.of(context).textTheme,
+      )),
+      home: BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
           builder: (BuildContext context, state) {
-            return const TakeOff();
-          },
-          listener: (context, state) {
-           if (state is GetTeacherDataLoadingState){
-             const CircularProgressIndicator();
-           }
-          }),
+        return (state is GetCurrentEmployeeDataLoadingState)
+            ? const SizedBox(
+                width: 100,
+                child: LoadingIndicator(
+                  indicatorType: Indicator.orbit,
+                  colors: [Colors.deepOrange],
+                  strokeWidth: 1,
+                ),
+              )
+            : const TakeOff(); //const
+      }, listener: (context, state) {
+        if (state is GetTeacherDataLoadingState) {
+          const CircularProgressIndicator();
+        }
+      }),
     );
     // currentWidth>900?const MyDeskTop():const MyMobile() ,
   }

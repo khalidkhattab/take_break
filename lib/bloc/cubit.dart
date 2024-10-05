@@ -12,9 +12,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 
   DateTime selectedDate = DateTime.now();
 
-
   //to store current employee cid to return his data and break time
-  late String currentCid='283021205454';
+  late String currentCid = '283021205454';
 
   getTeacherData() {
     allTeacher = [];
@@ -32,10 +31,10 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   }
 
   List<Map<String, dynamic>?> currentEmployee = [];
-  Future getEmployeeData(String cid) async{
-    currentEmployee = [];
+  Future getEmployeeData(String cid) async {
+    // currentEmployee = [];
     emit(GetCurrentEmployeeDataLoadingState());
-  await  FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('employee')
         .doc(cid)
         .get()
@@ -88,8 +87,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
-
-
   getDepart() {
     FirebaseFirestore.instance.collection('dep').get().then((value) {
       for (var val in value.docs) {
@@ -100,8 +97,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 //we can store department in list of map
 //   {title: computer}
 //   {title: Math}
-
-
 
   Future<void> addNewBreak({
     required String cid,
@@ -114,16 +109,20 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String returnTime,
   }) async {
     emit(AddTeacherBreakLoadingState());
-    await FirebaseFirestore.instance.collection('employee').doc(cid).collection('ezn').doc().set({
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .collection('ezn')
+        .doc()
+        .set({
       'cid': cid,
       'file_num': fileNumber,
       'name': name,
       'date': date,
       'title': title,
       'leaveTime': leaveTime,
-      'returnTime':returnTime,
+      'returnTime': returnTime,
       'dep': dep,
-
     }).then((val) {
       getTeacherData();
       emit(AddTeacherBreakSuccessState());
@@ -132,8 +131,31 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
-  screenRefresh(){
+  screenRefresh() {
     emit(RefreshState());
   }
 
+  // Get all Break For one Employee
+  // first define a List to store employee break
+  List<Map<String, dynamic>> employeeBreak = [];
+  Future<void> getEmployeeBreak(String cid) async {
+    emit(GetTeacherBreakLoadingState());
+    employeeBreak = [];
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .collection('ezn')
+        .get()
+        .then((value) {
+          for (var ezn in value.docs){
+            employeeBreak.add(ezn.data());
+          }
+          // print list for test only
+          print(employeeBreak);
+          emit(GetTeacherBreakSuccessState());
+    })
+        .catchError((error) {
+      emit(GetTeacherBreakErrorState());
+    });
+  }
 }

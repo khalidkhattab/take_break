@@ -98,7 +98,13 @@ flutter:
 #      fonts:
 #        - asset: font/Cairo.ttf
 #          weight: 300
-
+#  fonts:
+#    - family: SomeFont
+#      fonts:
+#        - asset: assets/fonts/SomeFont/SF-Regular.ttf
+#    - family: Roboto # Here
+#      fonts:
+#        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
 
 
   # For details regarding fonts from package dependencies,

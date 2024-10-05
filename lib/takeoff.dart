@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
-import 'package:first_app/poppages/search_by_cid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,10 +101,10 @@ class TakeOff extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                       onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => SearchByCid(cubit: cubit, ),
-                        );
+
+                       cubit.getEmployeeBreak('283021205454').then((value){
+
+                       });
                       },
                       icon: const Icon(
                         Icons.timer,
@@ -270,13 +269,17 @@ class TakeOff extends StatelessWidget {
                                 ),
                               )),
                     ),
-                    const Center(
+                    Center(
                       child: Column(
                         children: [
                           Padding(
-                              padding: EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(15.0),
                               child: Text('بيانات المعلمين',
-                                  style: TextStyle(fontSize: 30)))
+                                style: GoogleFonts.cairo(
+                                    color: Colors.black,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ))
                         ],
                       ),
                     ),
@@ -528,118 +531,132 @@ class TakeOff extends StatelessWidget {
                         ],
                       ),
                     //about me
-                    Container(
-                      width: double.infinity,
-                      color: Colors.grey.shade200,
-                      height: 370,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Card(
-                            elevation: 10,
-                            child: Image(
-                              image: AssetImage(
-                                'images/me.png',
-                              ),
-                              width: 280,
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'About Me',
-                                style: GoogleFonts.cairo(
-                                    color: Colors.black,
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Text(
-                                    'Abo Alhaytham',
-                                    style: GoogleFonts.cairo(
-                                        color: Colors.orange,
-                                        fontSize: 45,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    '.',
-                                    style: GoogleFonts.aBeeZee(
-                                        color: Colors.black,
-                                        fontSize: 60,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                'Computer teacher and Flutter dev . ',
-                                style: GoogleFonts.cairo(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'More than 14 years of experience in teaching computer science. ',
-                                style: GoogleFonts.cairo(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              const Column(
-                                children: [
-                                  InfoRow(
-                                      icon: Icons.person,
-                                      title: 'Name',
-                                      info: 'Khaled Khattab'),
-                                  InfoRow(
-                                      icon: Icons.phone,
-                                      title: 'Phone',
-                                      info: '+965 99245950'),
-                                  InfoRow(
-                                      icon: Icons.email,
-                                      title: 'Email',
-                                      info: 'Mrhasob@gmail.com'),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   color: Colors.grey.shade200,
+                    //   height: 370,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //     crossAxisAlignment: CrossAxisAlignment.center,
+                    //     children: [
+                    //       const Card(
+                    //         elevation: 10,
+                    //         child: Image(
+                    //           image: AssetImage(
+                    //             'images/me.png',
+                    //           ),
+                    //           width: 280,
+                    //         ),
+                    //       ),
+                    //       Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Text(
+                    //             'About Me',
+                    //             style: GoogleFonts.cairo(
+                    //                 color: Colors.black,
+                    //                 fontSize: 35,
+                    //                 fontWeight: FontWeight.bold),
+                    //           ),
+                    //           Row(
+                    //             crossAxisAlignment: CrossAxisAlignment.baseline,
+                    //             textBaseline: TextBaseline.alphabetic,
+                    //             children: [
+                    //               Text(
+                    //                 'Abo Alhaytham',
+                    //                 style: GoogleFonts.cairo(
+                    //                     color: Colors.orange,
+                    //                     fontSize: 45,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //               Text(
+                    //                 '.',
+                    //                 style: GoogleFonts.aBeeZee(
+                    //                     color: Colors.black,
+                    //                     fontSize: 60,
+                    //                     fontWeight: FontWeight.bold),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //           Text(
+                    //             'Computer teacher and Flutter dev . ',
+                    //             style: GoogleFonts.cairo(
+                    //                 color: Colors.black,
+                    //                 fontSize: 20,
+                    //                 fontWeight: FontWeight.bold),
+                    //           ),
+                    //           Text(
+                    //             'More than 14 years of experience in teaching computer science. ',
+                    //             style: GoogleFonts.cairo(
+                    //                 color: Colors.black,
+                    //                 fontSize: 16,
+                    //                 fontWeight: FontWeight.bold),
+                    //           ),
+                    //           const SizedBox(
+                    //             height: 15,
+                    //           ),
+                    //           const Column(
+                    //             children: [
+                    //               InfoRow(
+                    //                   icon: Icons.person,
+                    //                   title: 'Name',
+                    //                   info: 'Khaled Khattab'),
+                    //               InfoRow(
+                    //                   icon: Icons.phone,
+                    //                   title: 'Phone',
+                    //                   info: '+965 99245950'),
+                    //               InfoRow(
+                    //                   icon: Icons.email,
+                    //                   title: 'Email',
+                    //                   info: 'Mrhasob@gmail.com'),
+                    //             ],
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Center(
                         child: Column(
                           children: [
                             Text(
-                              'Recent Projects',
+                              'البحث عن اذونات موظف',
                               style: GoogleFonts.cairo(
                                   color: Colors.black,
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              'Computer teacher and Flutter dev . ',
+                              'ادخل الرقم المدني ',
                               style: GoogleFonts.cairo(
                                   color: Colors.grey,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'More than 14 years of experience in teaching computer science. ',
-                              style: GoogleFonts.cairo(
-                                  color: Colors.grey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                             TextFormAlarm(
+                              alert: 'ادخل الرقم المدني',
+                              controller: teacherCidController,
+                              label: 'الرقم المدتي',
+                              password: false,
+                                                         ),
+                            MaterialButton(
+                              height: 60,
+                              color: Colors.orange,
+                              onPressed: (){
+
+                                cubit.getEmployeeBreak(teacherCidController.text).then((value){
+
+                                });
+                              }, child: (state is GetTeacherBreakLoadingState)?const SizedBox(height: 50,child: LoadingIndicator(indicatorType: Indicator.lineScale,
+                                colors: [Colors.white],       /// Optional, The color collections
+                                strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
+
+
+
+                            ),):const  Text('بحث'),)
                           ],
                         ),
                       ),
@@ -647,15 +664,16 @@ class TakeOff extends StatelessWidget {
                     Container(
                       alignment: Alignment.center,
                       height: 350,
-                      child: ListView.builder(
-                          itemCount: projectList.length,
+                      child: (cubit.employeeBreak.isNotEmpty)? ListView.builder(
+                          itemCount: cubit.employeeBreak.length,
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 30, vertical: 30),
                                 child: Card(
-                                  color: projectList[index].color,
+                                  elevation: 10,
+                                  // color: projectList[index].color,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 15),
@@ -667,12 +685,12 @@ class TakeOff extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Image(
+                                         const Image(
                                               image: AssetImage(
-                                                  'images/${projectList[index].image}'),
+                                                  'images/me2.png'),
                                               width: 80),
                                           Text(
-                                            projectList[index].title,
+                                            cubit.employeeBreak[index]['date'],
                                             style: GoogleFonts.lobster(
                                               fontSize: 30,
                                               color: Colors.black,
@@ -683,7 +701,7 @@ class TakeOff extends StatelessWidget {
                                                 horizontal: 15),
                                             child: Wrap(children: [
                                               Text(
-                                                projectList[index].details,
+                                                cubit.employeeBreak[index]['leaveTime'],
                                                 maxLines:
                                                     2, //2 or more line you want
                                                 overflow: TextOverflow.ellipsis,
@@ -783,7 +801,7 @@ class TakeOff extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              )),
+                              )):const Text('لايوجد بيانات للعرض', style: TextStyle(fontSize: 30),),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50),

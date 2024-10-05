@@ -30,5 +30,10 @@ class AddTeacherBreakSuccessState extends TakeBreakStatus{}
 class AddTeacherBreakErrorState extends TakeBreakStatus{}
 
 
+
+class GetTeacherBreakLoadingState extends TakeBreakStatus{}
+class GetTeacherBreakSuccessState extends TakeBreakStatus{}
+class GetTeacherBreakErrorState extends TakeBreakStatus{}
+
 //only for test
 class RefreshState extends TakeBreakStatus{}

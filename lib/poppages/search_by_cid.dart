@@ -1,6 +1,9 @@
+import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/cubit.dart';
+import '../bloc/cubit_status.dart';
 import '../component.dart';
 
 class SearchByCid extends StatelessWidget {
@@ -15,35 +18,37 @@ class SearchByCid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController teacherCidController = TextEditingController();
-    return AlertDialog(
-      actions: [
-        MaterialButton(
-          onPressed: () {
-            cubit.getEmployeeData(
-                teacherCidController.text).then((value){
-                  // Navigator.push(context, ())
-            });
-            // showDatePicker(
-            //     context: context,
-            //     firstDate: DateTime(2000),
-            //     lastDate: DateTime(2040),
-            // ).then((value){
-            //   print(value);
-            //   print("${value?.day}-${value?.month}-${value?.year}");
-            // });
-          },
-          child: const Text('حفط'),
-        )
-      ],
-      title:
-      const Center(child: Text("ادخل الرقم المدني")),
-      content: TextFormAlarm(
-        alert: 'ادخل الرقم المدني',
-        controller: teacherCidController,
-        label: 'الرقم المدتي',
-        password: false,
-      ),
-    );
+    return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(builder: (context, state){
+     return AlertDialog(
+        actions: [
+          MaterialButton(
+            onPressed: () {
+              cubit.getEmployeeData(
+                  teacherCidController.text).then((value){
+                print(cubit.currentEmployee[0]?['cid']);
+                (state is GetCurrentEmployeeDataSuccessState)?
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid']))):null;
+                // showDialog(context: context, builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid']));
+              });
+
+            },
+            child:const Center(child:  Text('بحث', style: TextStyle(fontSize: 20),)),
+          )
+        ],
+        title:
+        const Center(child: Text("ادخل الرقم المدني")),
+        content: TextFormAlarm(
+          alert: 'ادخل الرقم المدني',
+          controller: teacherCidController,
+          label: 'الرقم المدتي',
+          password: false,
+        ),
+      );
+    }, listener: (context, state){});
+
+
   }
 }
+
+
 
