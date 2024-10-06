@@ -108,27 +108,31 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String leaveTime,
     required String returnTime,
   }) async {
-    emit(AddTeacherBreakLoadingState());
-    await FirebaseFirestore.instance
-        .collection('employee')
-        .doc(cid)
-        .collection('ezn')
-        .doc()
-        .set({
-      'cid': cid,
-      'file_num': fileNumber,
-      'name': name,
-      'date': date,
-      'title': title,
-      'leaveTime': leaveTime,
-      'returnTime': returnTime,
-      'dep': dep,
-    }).then((val) {
-      getTeacherData();
-      emit(AddTeacherBreakSuccessState());
-    }).catchError((error) {
-      emit(AddTeacherBreakErrorState());
+   await getEmployeeBreak(cid).then((value){
+      emit(AddTeacherBreakLoadingState());
+       FirebaseFirestore.instance
+          .collection('employee')
+          .doc(cid)
+          .collection('ezn')
+          .doc((employeeBreak.length+1).toString())
+          .set({
+        'cid': cid,
+        'file_num': fileNumber,
+        'name': name,
+        'date': date,
+        'title': title,
+        'leaveTime': leaveTime,
+        'returnTime': returnTime,
+        'dep': dep,
+        'doc':(employeeBreak.length+1).toString()
+      }).then((val) {
+        getTeacherData();
+        emit(AddTeacherBreakSuccessState());
+      }).catchError((error) {
+        emit(AddTeacherBreakErrorState());
+      });
     });
+
   }
 
   screenRefresh() {
@@ -156,6 +160,25 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     })
         .catchError((error) {
       emit(GetTeacherBreakErrorState());
+    });
+  }
+
+
+  Future<void> deleteEmployeeBreak(String cid, String docs) async {
+    emit(DeleteTeacherBreakErrorState());
+    employeeBreak = [];
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .collection('ezn')
+        .doc(docs).delete()
+        .then((value) {
+      // print list for test only
+      getEmployeeBreak(cid);
+      emit(DeleteTeacherBreakSuccessState());
+    })
+        .catchError((error) {
+      emit(DeleteTeacherBreakErrorState());
     });
   }
 }

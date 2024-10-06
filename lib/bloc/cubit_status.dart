@@ -37,3 +37,8 @@ class GetTeacherBreakErrorState extends TakeBreakStatus{}
 
 //only for test
 class RefreshState extends TakeBreakStatus{}
+
+
+class DeleteTeacherBreakLoadingState extends TakeBreakStatus{}
+class DeleteTeacherBreakSuccessState extends TakeBreakStatus{}
+class DeleteTeacherBreakErrorState extends TakeBreakStatus{}
