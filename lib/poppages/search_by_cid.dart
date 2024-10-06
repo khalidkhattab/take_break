@@ -25,9 +25,9 @@ class SearchByCid extends StatelessWidget {
             onPressed: () {
               cubit.getEmployeeData(
                   teacherCidController.text).then((value){
-                print(cubit.currentEmployee[0]?['cid']);
-                (state is GetCurrentEmployeeDataSuccessState)?
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid']))):null;
+                // print(cubit.currentEmployee[0]?['cid']);
+                // (state is GetCurrentEmployeeDataSuccessState)?
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid'])));
                 // showDialog(context: context, builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid']));
               });
 
