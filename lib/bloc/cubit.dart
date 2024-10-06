@@ -1,5 +1,10 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+
+
 
 import '../../bloc/cubit_status.dart';
 
@@ -12,9 +17,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 
   DateTime selectedDate = DateTime.now();
 
-
   //to store current employee cid to return his data and break time
-  late String currentCid='283021205454';
+  late String currentCid = '283021205454';
 
   getTeacherData() {
     allTeacher = [];
@@ -32,10 +36,10 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   }
 
   List<Map<String, dynamic>?> currentEmployee = [];
-  Future getEmployeeData(String cid) async{
-    currentEmployee = [];
+  Future getEmployeeData(String cid) async {
+    // currentEmployee = [];
     emit(GetCurrentEmployeeDataLoadingState());
-  await  FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('employee')
         .doc(cid)
         .get()
@@ -88,8 +92,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
-
-
   getDepart() {
     FirebaseFirestore.instance.collection('dep').get().then((value) {
       for (var val in value.docs) {
@@ -101,8 +103,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
 //   {title: computer}
 //   {title: Math}
 
-
-
   Future<void> addNewBreak({
     required String cid,
     required String name,
@@ -113,27 +113,93 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String leaveTime,
     required String returnTime,
   }) async {
-    emit(AddTeacherBreakLoadingState());
-    await FirebaseFirestore.instance.collection('employee').doc(cid).collection('ezn').doc().set({
-      'cid': cid,
-      'file_num': fileNumber,
-      'name': name,
-      'date': date,
-      'title': title,
-      'leaveTime': leaveTime,
-      'returnTime':returnTime,
-      'dep': dep,
+    await getEmployeeBreak(cid).then((value){
+      emit(AddTeacherBreakLoadingState());
+      FirebaseFirestore.instance
+          .collection('employee')
+          .doc(cid)
+          .collection('ezn')
+          .doc((employeeBreak.length+1).toString())
+          .set({
+        'cid': cid,
+        'file_num': fileNumber,
+        'name': name,
+        'date': date,
+        'title': title,
+        'leaveTime': leaveTime,
+        'returnTime': returnTime,
+        'dep': dep,
+        'doc':(employeeBreak.length+1).toString()
+      }).then((val) {
+        getTeacherData();
+        emit(AddTeacherBreakSuccessState());
+      }).catchError((error) {
+        emit(AddTeacherBreakErrorState());
+      });
+    });
 
-    }).then((val) {
-      getTeacherData();
-      emit(AddTeacherBreakSuccessState());
-    }).catchError((error) {
-      emit(AddTeacherBreakErrorState());
+  }
+
+  screenRefresh() {
+    emit(RefreshState());
+  }
+
+  // Get all Break For one Employee
+  // first define a List to store employee break
+  List<Map<String, dynamic>> employeeBreak = [];
+  Future<void> getEmployeeBreak(String cid) async {
+    emit(GetTeacherBreakLoadingState());
+    employeeBreak = [];
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .collection('ezn')
+        .get()
+        .then((value) {
+      for (var ezn in value.docs){
+        employeeBreak.add(ezn.data());
+      }
+      // print list for test only
+      print(employeeBreak);
+      emit(GetTeacherBreakSuccessState());
+    })
+        .catchError((error) {
+      emit(GetTeacherBreakErrorState());
     });
   }
 
-  screenRefresh(){
-    emit(RefreshState());
+
+  Future<void> deleteEmployeeBreak(String cid, String docs) async {
+    emit(DeleteTeacherBreakErrorState());
+    employeeBreak = [];
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .doc(cid)
+        .collection('ezn')
+        .doc(docs).delete()
+        .then((value) {
+      // print list for test only
+      getEmployeeBreak(cid);
+      emit(DeleteTeacherBreakSuccessState());
+    })
+        .catchError((error) {
+      emit(DeleteTeacherBreakErrorState());
+    });
+  }
+
+
+  Future<void> createPDF() async {
+    //Create a PDF document.
+    PdfDocument document = PdfDocument();
+    //Add a page and draw text
+    document.pages.add().graphics.drawString(
+        'Hello World!', PdfStandardFont(PdfFontFamily.helvetica, 20),
+        brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+        bounds: Rect.fromLTWH(20, 60, 150, 30));
+    //Save the document
+    List<int> bytes = await document.save();
+    //Dispose the document
+    document.dispose();
   }
 
 }
