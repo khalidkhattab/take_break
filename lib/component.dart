@@ -159,6 +159,7 @@ class TextFormAlarm extends StatelessWidget {
             child: Directionality(
               textDirection: TextDirection.rtl,
               child: TextFormField(
+                textAlign: TextAlign.center,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return alert;

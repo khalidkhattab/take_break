@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
+import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,96 +24,93 @@ class TakeOff extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Image(
-                        image: AssetImage('images/logo.png'),
-                        width: 40,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(
-                            'Mr',
-                            style: GoogleFonts.lora(
-                                fontSize: 35, color: Colors.orange),
-                          ),
-                          Text(
-                            ':Hasob',
-                            style: GoogleFonts.lora(
-                                fontSize: 20, color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              actions: [
-                (state is GetTeacherDataLoadingState)
-                    ?
-                    const LoadingIndicator(
-                        indicatorType: Indicator.orbit,
-                        colors: [Colors.deepOrange],
-
-                        /// Optional, The color collections
-                        strokeWidth: 1,
-
-                        /// Optional, The stroke of the line, only applicable to widget which contains line
-                        // backgroundColor: Colors.black,      /// Optional, Background of the widget
-                        // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
-                      )
-                    : const Text(''),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //new
-                      FirebaseFirestore.instance
-                          .collection('dep')
-                          .doc('1000')
-                          .collection('teachers')
-                          .get()
-                          .then((value) {
-                        all_teacher = [];
-                        for (var action in value.docs) {
-                          // print(action.data());
-                          all_teacher.add(action.data());
-                          //print(all_teacher);
-                        }
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: const StadiumBorder(),
-                      backgroundColor: Colors.green,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const Image(
+                          image: AssetImage('images/logo.png'),
+                          width: 40,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              'Mr',
+                              style: GoogleFonts.lora(
+                                  fontSize: 35, color: Colors.orange),
+                            ),
+                            Text(
+                              ':Hasob',
+                              style: GoogleFonts.lora(
+                                  fontSize: 20, color: Colors.black),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      'test2',
-                      style:
-                          GoogleFonts.lora(fontSize: 15, color: Colors.white),
-                    ),
-                  ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
+                actions: [
+                  (state is GetTeacherDataLoadingState)
+                      ? const LoadingIndicator(
+                          indicatorType: Indicator.orbit,
+                          colors: [Colors.deepOrange],
+
+                          /// Optional, The color collections
+                          strokeWidth: 1,
+
+                          /// Optional, The stroke of the line, only applicable to widget which contains line
+                          // backgroundColor: Colors.black,      /// Optional, Background of the widget
+                          // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
+                        )
+                      : const Text(''),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: ElevatedButton(
                       onPressed: () {
-
-                       cubit.getEmployeeBreak('283021205454').then((value){
-
-                       });
+                        //new
+                        FirebaseFirestore.instance
+                            .collection('dep')
+                            .doc('1000')
+                            .collection('teachers')
+                            .get()
+                            .then((value) {
+                          all_teacher = [];
+                          for (var action in value.docs) {
+                            // print(action.data());
+                            all_teacher.add(action.data());
+                            //print(all_teacher);
+                          }
+                        });
                       },
-                      icon: const Icon(
-                        Icons.timer,
-                        color: Colors.red,
-                      )),
-                )
-              ]
-            ),
+                      style: ElevatedButton.styleFrom(
+                        shape: const StadiumBorder(),
+                        backgroundColor: Colors.green,
+                      ),
+                      child: Text(
+                        'test2',
+                        style:
+                            GoogleFonts.lora(fontSize: 15, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        onPressed: () {
+                          cubit
+                              .getEmployeeBreak('283021205454')
+                              .then((value) {});
+                        },
+                        icon: const Icon(
+                          Icons.timer,
+                          color: Colors.red,
+                        )),
+                  )
+                ]),
             body: SingleChildScrollView(
               child: Directionality(
                 textDirection: TextDirection.rtl,
@@ -274,7 +272,8 @@ class TakeOff extends StatelessWidget {
                         children: [
                           Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text('بيانات المعلمين',
+                              child: Text(
+                                'بيانات المعلمين',
                                 style: GoogleFonts.cairo(
                                     color: Colors.black,
                                     fontSize: 30,
@@ -636,258 +635,310 @@ class TakeOff extends StatelessWidget {
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
-                             Row(
-                               crossAxisAlignment: CrossAxisAlignment.center,
-                               mainAxisSize: MainAxisSize.min,
-                               mainAxisAlignment: MainAxisAlignment.center,
-                               children: [
-                                 TextFormAlarm(
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextFormAlarm(
                                   alert: 'ادخل الرقم المدني',
                                   controller: teacherCidController,
                                   label: 'الرقم المدتي',
                                   password: false,
-                                                             ),
-                                Text(cubit.employeeBreak.length.toString(), style:const TextStyle(fontSize: 30),)
-                               ],
-                             ),
+                                ),
+                                Text(
+                                  cubit.employeeBreak.length.toString(),
+                                  style: const TextStyle(fontSize: 30),
+                                )
+                              ],
+                            ),
                             MaterialButton(
                               height: 60,
                               color: Colors.orange,
-                              onPressed: (){
+                              onPressed: () {
+                                cubit
+                                    .getEmployeeBreak(teacherCidController.text)
+                                    .then((value) {});
+                              },
+                              child: (state is GetTeacherBreakLoadingState)
+                                  ? const SizedBox(
+                                      height: 50,
+                                      child: LoadingIndicator(
+                                        indicatorType: Indicator.lineScale,
+                                        colors: [Colors.white],
 
-                                cubit.getEmployeeBreak(teacherCidController.text).then((value){
+                                        /// Optional, The color collections
+                                        strokeWidth: 2,
 
-                                });
-                              }, child: (state is GetTeacherBreakLoadingState)?const SizedBox(height: 50,child: LoadingIndicator(indicatorType: Indicator.lineScale,
-                                colors: [Colors.white],       /// Optional, The color collections
-                                strokeWidth: 2,                     /// Optional, The stroke of the line, only applicable to widget which contains line
-
-
-
-                            ),):const  Text('بحث'),)
+                                        /// Optional, The stroke of the line, only applicable to widget which contains line
+                                      ),
+                                    )
+                                  : const Text('بحث'),
+                            )
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 350,
-                      child: (cubit.employeeBreak.isNotEmpty)? ListView.builder(
-                          itemCount: cubit.employeeBreak.length,
-                          shrinkWrap: false,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 30),
-                                child: Card(
-                                  elevation: 10,
-                                  // color: projectList[index].color,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
-                                    child: Stack(
-                                      children: [
-                                        SizedBox(
-                                          width: 250,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                             const Image(
-                                                  image: AssetImage(
-                                                      'images/me2.png'),
-                                                  width: 80),
-                                              Text(
-                                                cubit.employeeBreak[index]['date'],
-                                                style: GoogleFonts.lobster(
-                                                  fontSize: 30,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                              Padding(
+                    (cubit.employeeBreak.isNotEmpty)
+                        ? Center(
+                          child: SizedBox(
+                                                height: 360,
+                            child: ListView(
+
+                            scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  Container(
+                                      alignment: Alignment.center,
+                                      height: 350,
+                                      child: ListView.builder(
+                                          itemCount: cubit.employeeBreak.length,
+                                          physics: ScrollPhysics(),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) => Padding(
                                                 padding: const EdgeInsets.symmetric(
-                                                    horizontal: 15),
-                                                child: Wrap(children: [
-                                                  Text(
-                                                    cubit.employeeBreak[index]['leaveTime'],
-                                                    maxLines:
-                                                        2, //2 or more line you want
-                                                    overflow: TextOverflow.ellipsis,
-                                                  )
-                                                ]),
-                                              ),
-                                              MaterialButton(
-                                                minWidth: 120,
-                                                color: Colors.orange,
-                                                onPressed: () {
-                                                  //
-                                        
-                                                  //
-                                                  showDialog(
-                                                      context: (context),
-                                                      builder: (context) =>
-                                                          AlertDialog(
-                                                            // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                            elevation: 10,
-                                        
-                                                            content: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize.min,
-                                                              children: [
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          30.0),
-                                                                  child: Image(
-                                                                      image: AssetImage(
-                                                                          'images/${projectList[index].image}'),
-                                                                      width: 160),
+                                                    horizontal: 30, vertical: 30),
+                                                child: Card(
+                                                  elevation: 10,
+                                                  // color: projectList[index].color,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                            vertical: 15),
+                                                    child: Stack(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 250,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              const Image(
+                                                                  image: AssetImage(
+                                                                      'images/me2.png'),
+                                                                  width: 80),
+                                                              Text(
+                                                                cubit.employeeBreak[
+                                                                    index]['date'],
+                                                                style: GoogleFonts
+                                                                    .lobster(
+                                                                  fontSize: 30,
+                                                                  color:
+                                                                      Colors.black,
                                                                 ),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .symmetric(
-                                                                          vertical:
-                                                                              20),
-                                                                  child: Text(
-                                                                    projectList[
-                                                                            index]
-                                                                        .title,
-                                                                    style:
-                                                                        GoogleFonts
-                                                                            .lobster(
-                                                                      fontSize: 30,
-                                                                      color: Colors
-                                                                          .grey,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              15),
-                                                                  child: Wrap(
-                                                                      children: [
-                                                                        Text(
-                                                                          projectList[
-                                                                                  index]
-                                                                              .details,
-                                                                          maxLines:
-                                                                              2, //2 or more line you want
-                                                                          overflow:
-                                                                              TextOverflow
-                                                                                  .ellipsis,
-                                                                        )
-                                                                      ]),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            actions: [
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            15),
+                                                                child:
+                                                                    Wrap(children: [
+                                                                  Text(
+                                                                    cubit.employeeBreak[
+                                                                            index][
+                                                                        'leaveTime'],
+                                                                    maxLines:
+                                                                        2, //2 or more line you want
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                  )
+                                                                ]),
+                                                              ),
                                                               MaterialButton(
+                                                                minWidth: 120,
+                                                                color:
+                                                                    Colors.orange,
                                                                 onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
+                                                                  //
+
+                                                                  //
+                                                                  showDialog(
+                                                                      context:
+                                                                          (context),
+                                                                      builder:
+                                                                          (context) =>
+                                                                              AlertDialog(
+                                                                                // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                                                elevation:
+                                                                                    10,
+
+                                                                                content:
+                                                                                    Column(
+                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                  children: [
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.all(30.0),
+                                                                                      child: Image(image: AssetImage('images/${projectList[index].image}'), width: 160),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.symmetric(vertical: 20),
+                                                                                      child: Text(
+                                                                                        projectList[index].title,
+                                                                                        style: GoogleFonts.lobster(
+                                                                                          fontSize: 30,
+                                                                                          color: Colors.grey,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                                                                                      child: Wrap(children: [
+                                                                                        Text(
+                                                                                          projectList[index].details,
+                                                                                          maxLines: 2, //2 or more line you want
+                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                        )
+                                                                                      ]),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                                actions: [
+                                                                                  MaterialButton(
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    color: Colors.green,
+                                                                                    child: const Text('Ok'),
+                                                                                  )
+                                                                                ],
+                                                                              ));
                                                                 },
-                                                                color: Colors.green,
                                                                 child: const Text(
-                                                                    'Ok'),
+                                                                  'Read more',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
                                                               )
                                                             ],
-                                                          ));
-                                                },
-                                                child: const Text(
-                                                  'Read more',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
+                                                          ),
+                                                        ),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              cubit.deleteEmployeeBreak(
+                                                                  cubit.employeeBreak[
+                                                                      index]['cid'],
+                                                                  cubit.employeeBreak[
+                                                                          index]
+                                                                      ['doc']);
+                                                            },
+                                                            icon: (state
+                                                                    is DeleteTeacherBreakLoadingState)
+                                                                ? CircularProgressIndicator()
+                                                                : const Icon(
+                                                                    Icons.delete,
+                                                                    color:
+                                                                        Colors.red,
+                                                                  ))
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        IconButton(onPressed: (){
-                                          cubit.deleteEmployeeBreak(cubit.employeeBreak[index]['cid'], cubit.employeeBreak[index]['doc']);
-                                        }, icon:
-          (state is DeleteTeacherBreakLoadingState)?CircularProgressIndicator():
-                                        const Icon(Icons.delete, color: Colors.red,))
-                                      ],
+                                              ))),
+                                  Padding(
+                                    //الاذونات
+                                  padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 30),
+                                    child: Card(
+                                      elevation: 10,
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: 250,
+                                        height: 200,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.employeeBreak[
+                                              0]['cid']))).then((val){
+                                                cubit.getEmployeeBreak(cubit.employeeBreak[
+                                                0]['cid']);
+                                              });
+                                            }, icon:const Icon(Icons.add, size: 40,color: Colors.orange,)),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              )):const Text('لايوجد بيانات للعرض', style: TextStyle(fontSize: 30),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: SizedBox(
-                        height: 400,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              bottom: 0,
-                              left: 50,
-                              right: 50,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width - 200,
-                                height: 250,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(50)),
-                                  color: Colors.grey.shade200,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 100),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'contact Me',
-                                        style: GoogleFonts.cairo(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text('Got an idea? Lets Talk!',
-                                          style: GoogleFonts.cairo(
-                                              color: Colors.black,
-                                              fontSize: 40,
-                                              fontWeight: FontWeight.bold)),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.email,
-                                            size: 30,
-                                            color: Colors.orange,
-                                          ),
-                                          Text('Mrhasob@gmail.com',
-                                              style: GoogleFonts.cairo(
-                                                  color: Colors.orange,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                  )
+                                ],
                               ),
-                            ),
-                            const Positioned(
-                                right: 50,
-                                bottom: -15,
-                                child: Image(
-                                  image: AssetImage('images/idie.png'),
-                                  width: 450,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
+                        )
+                        : const Text(
+                            'لايوجد بيانات للعرض',
+                            style: TextStyle(fontSize: 30),
+                          ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 50),
+                    //   child: SizedBox(
+                    //     height: 400,
+                    //     child: Stack(
+                    //       children: [
+                    //         Positioned(
+                    //           bottom: 0,
+                    //           left: 50,
+                    //           right: 50,
+                    //           child: Container(
+                    //             width: MediaQuery.of(context).size.width - 200,
+                    //             height: 250,
+                    //             decoration: BoxDecoration(
+                    //               borderRadius: const BorderRadius.all(
+                    //                   Radius.circular(50)),
+                    //               color: Colors.grey.shade200,
+                    //             ),
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.only(left: 100),
+                    //               child: Column(
+                    //                 mainAxisAlignment:
+                    //                     MainAxisAlignment.spaceEvenly,
+                    //                 crossAxisAlignment:
+                    //                     CrossAxisAlignment.start,
+                    //                 children: [
+                    //                   Text(
+                    //                     'contact Me',
+                    //                     style: GoogleFonts.cairo(
+                    //                         color: Colors.black,
+                    //                         fontSize: 20,
+                    //                         fontWeight: FontWeight.bold),
+                    //                   ),
+                    //                   Text('Got an idea? Lets Talk!',
+                    //                       style: GoogleFonts.cairo(
+                    //                           color: Colors.black,
+                    //                           fontSize: 40,
+                    //                           fontWeight: FontWeight.bold)),
+                    //                   Row(
+                    //                     children: [
+                    //                       const Icon(
+                    //                         Icons.email,
+                    //                         size: 30,
+                    //                         color: Colors.orange,
+                    //                       ),
+                    //                       Text('Mrhasob@gmail.com',
+                    //                           style: GoogleFonts.cairo(
+                    //                               color: Colors.orange,
+                    //                               fontSize: 20,
+                    //                               fontWeight: FontWeight.bold)),
+                    //                     ],
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //         const Positioned(
+                    //             right: 50,
+                    //             bottom: -15,
+                    //             child: Image(
+                    //               image: AssetImage('images/idie.png'),
+                    //               width: 450,
+                    //             ))
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 50,
                     ),
@@ -909,4 +960,3 @@ class TakeOff extends StatelessWidget {
         listener: (context, states) {});
   }
 }
-
