@@ -871,74 +871,7 @@ class TakeOff extends StatelessWidget {
                             'لايوجد بيانات للعرض',
                             style: TextStyle(fontSize: 30),
                           ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 50),
-                    //   child: SizedBox(
-                    //     height: 400,
-                    //     child: Stack(
-                    //       children: [
-                    //         Positioned(
-                    //           bottom: 0,
-                    //           left: 50,
-                    //           right: 50,
-                    //           child: Container(
-                    //             width: MediaQuery.of(context).size.width - 200,
-                    //             height: 250,
-                    //             decoration: BoxDecoration(
-                    //               borderRadius: const BorderRadius.all(
-                    //                   Radius.circular(50)),
-                    //               color: Colors.grey.shade200,
-                    //             ),
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.only(left: 100),
-                    //               child: Column(
-                    //                 mainAxisAlignment:
-                    //                     MainAxisAlignment.spaceEvenly,
-                    //                 crossAxisAlignment:
-                    //                     CrossAxisAlignment.start,
-                    //                 children: [
-                    //                   Text(
-                    //                     'contact Me',
-                    //                     style: GoogleFonts.cairo(
-                    //                         color: Colors.black,
-                    //                         fontSize: 20,
-                    //                         fontWeight: FontWeight.bold),
-                    //                   ),
-                    //                   Text('Got an idea? Lets Talk!',
-                    //                       style: GoogleFonts.cairo(
-                    //                           color: Colors.black,
-                    //                           fontSize: 40,
-                    //                           fontWeight: FontWeight.bold)),
-                    //                   Row(
-                    //                     children: [
-                    //                       const Icon(
-                    //                         Icons.email,
-                    //                         size: 30,
-                    //                         color: Colors.orange,
-                    //                       ),
-                    //                       Text('Mrhasob@gmail.com',
-                    //                           style: GoogleFonts.cairo(
-                    //                               color: Colors.orange,
-                    //                               fontSize: 20,
-                    //                               fontWeight: FontWeight.bold)),
-                    //                     ],
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         const Positioned(
-                    //             right: 50,
-                    //             bottom: -15,
-                    //             child: Image(
-                    //               image: AssetImage('images/idie.png'),
-                    //               width: 450,
-                    //             ))
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+
                     const SizedBox(
                       height: 50,
                     ),
