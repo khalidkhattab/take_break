@@ -49,6 +49,12 @@ dependencies:
 
 #  Pdf Generator
   syncfusion_flutter_pdfviewer: ^27.1.51
+  path_provider:
+  open_file:
+
+  pdf:
+  printing:
+
 
 
 
