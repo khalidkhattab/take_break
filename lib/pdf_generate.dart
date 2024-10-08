@@ -3,7 +3,6 @@ import 'dart:html';
 import 'dart:ui';
 
 import 'package:first_app/bloc/cubit.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
@@ -15,7 +14,7 @@ class PdfService {
 
     //Create a new PDF document
     PdfDocument document = PdfDocument();
-    PdfFont arFont =  (GoogleFonts.cairo()) as PdfFont;
+    // PdfFont arFont =  (GoogleFonts.cairo()) as PdfFont;
     PdfGrid grid = PdfGrid();
     //Define number of columns in table
     grid.columns.add(count: 5);
@@ -23,10 +22,10 @@ class PdfService {
     grid.headers.add(1);
     //Add the rows to the grid
     PdfGridRow header = grid.headers[0];
-    header.cells[0].value = "الاسم";
+    header.cells[0].value = "date";
     header.cells[1].value = "leave time";
     header.cells[2].value = "back time";
-    header.cells[3].value = "date";
+    header.cells[3].value = "dep";
     header.cells[4].value = "note";
     //Add header style
     header.style = PdfGridCellStyle(
@@ -42,15 +41,18 @@ class PdfService {
       row.cells[1].value = currentBreak['cid'];
       row.cells[2].value = currentBreak['returnTime'];
       row.cells[3].value = currentBreak['leaveTime'];
-      row.cells[4].value = currentBreak['name'];
+      row.cells[4].value = "";
     }
     //Add rows style
     grid.style = PdfGridStyle(
       cellPadding: PdfPaddings(left: 10, right: 3, top: 4, bottom: 5),
       backgroundBrush: PdfBrushes.white,
       textBrush: PdfBrushes.black,
-      font: arFont
+      font: PdfStandardFont(PdfFontFamily.helvetica, 12)
     );
+
+    //PdfStandardFont(PdfFontFamily.helvetica, 12)
+    //File('Arial.ttf').readAsBytesSync(), 14
 
     //Draw the grid
     grid.draw(

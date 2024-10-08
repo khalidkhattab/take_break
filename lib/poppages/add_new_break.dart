@@ -44,7 +44,7 @@ class AddNewBreak extends StatelessWidget {
                             dep: teacherDepartController.text,
                             date: breakDateController.text,
                             leaveTime: leaveTimeController.text,
-                            returnTime: returnTimeController.text)
+                            returnTime: cubit.selectedTime)
                         .then((value) {
                       (state is AddTeacherBreakErrorState)
                           ? showDialog(
@@ -121,10 +121,21 @@ class AddNewBreak extends StatelessWidget {
                       password: false,
                       alert: 'يجب ادحال وقت المغادرة'),
                   TextFormAlarm(
-                      controller: returnTimeController,
+                      controller: returnTimeController..text="${cubit.selectedTime.hour}:${cubit.selectedTime.minute}",
                       label: 'وقت العودة',
                       password: false,
                       alert: 'يجب ادحال وقت العودة'),
+                  IconButton(onPressed: ()async{
+                    final TimeOfDay? timeOfDay=await showTimePicker(context: context, initialTime: cubit.selectedTime,
+                      initialEntryMode: TimePickerEntryMode.dial,
+
+                    );
+                    if(timeOfDay != null){
+                      cubit.selectedTime=timeOfDay;
+                      cubit.screenRefresh();
+                    }
+
+                  }, icon: Icon(Icons.timer))
                 ],
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cubit_status.dart';
@@ -11,6 +12,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   List<Map<String, dynamic>> allTeacher = [];
 
   DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime=TimeOfDay.now();
 
   //to store current employee cid to return his data and break time
   late String currentCid = '283021205454';
@@ -106,7 +108,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String dep,
     required String date,
     required String leaveTime,
-    required String returnTime,
+    required TimeOfDay returnTime,
   }) async {
     await getEmployeeBreak(cid).then((value){
       emit(AddTeacherBreakLoadingState());

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
+import 'package:first_app/pdf_generate.dart';
+import 'package:first_app/pdf_rtl.dart';
 import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -101,6 +103,18 @@ class TakeOff extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                         onPressed: () {
+                         PdfService().printCustomersPdf(cubit);
+                         // PdfServices().printMyPdf(cubit);
+                        },
+                        icon: const Icon(
+                          Icons.print,
+                          color: Colors.green,
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        onPressed: () {
                           cubit
                               .getEmployeeBreak('283021205454')
                               .then((value) {});
@@ -169,54 +183,6 @@ class TakeOff extends StatelessWidget {
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold),
                               ),
-                              // const SizedBox(
-                              //   height: 15,
-                              // ),
-                              // Row(
-                              //   children: [
-                              //     ElevatedButton(
-                              //       onPressed: () {
-                              //         launchUrl(
-                              //             Uri.parse(
-                              //                 'https://wa.me/+96599245950?text=Hi'),
-                              //             mode: LaunchMode.externalApplication);
-                              //       },
-                              //       style: ElevatedButton.styleFrom(
-                              //         shape: const StadiumBorder(),
-                              //         backgroundColor: Colors.green.shade300,
-                              //       ),
-                              //       child: Text(
-                              //         'WhatsApp',
-                              //         style: GoogleFonts.lora(
-                              //             fontSize: 15, color: Colors.white),
-                              //       ),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 20,
-                              //     ),
-                              //     SizedBox(
-                              //       child: Row(
-                              //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              //         children: [
-                              //           IconButton(
-                              //             icon: const Icon(
-                              //               Icons.play_circle,
-                              //               color: Colors.red,
-                              //               size: 35,
-                              //             ),
-                              //             onPressed: () {
-                              //               launchUrl(Uri.parse(
-                              //                   'https://www.youtube.com/channel/UChA_rMzP10iZg5kSizEM8Rg'));
-                              //             },
-                              //           ),
-                              //           Text('See My Channel',
-                              //               style: GoogleFonts.lobster(
-                              //                   color: Colors.grey.shade600))
-                              //         ],
-                              //       ),
-                              //     )
-                              //   ],
-                              // ),
                             ],
                           ),
                           Container(
@@ -529,93 +495,6 @@ class TakeOff extends StatelessWidget {
                           ),
                         ],
                       ),
-                    //about me
-                    // Container(
-                    //   width: double.infinity,
-                    //   color: Colors.grey.shade200,
-                    //   height: 370,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       const Card(
-                    //         elevation: 10,
-                    //         child: Image(
-                    //           image: AssetImage(
-                    //             'images/me.png',
-                    //           ),
-                    //           width: 280,
-                    //         ),
-                    //       ),
-                    //       Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         mainAxisAlignment: MainAxisAlignment.center,
-                    //         children: [
-                    //           Text(
-                    //             'About Me',
-                    //             style: GoogleFonts.cairo(
-                    //                 color: Colors.black,
-                    //                 fontSize: 35,
-                    //                 fontWeight: FontWeight.bold),
-                    //           ),
-                    //           Row(
-                    //             crossAxisAlignment: CrossAxisAlignment.baseline,
-                    //             textBaseline: TextBaseline.alphabetic,
-                    //             children: [
-                    //               Text(
-                    //                 'Abo Alhaytham',
-                    //                 style: GoogleFonts.cairo(
-                    //                     color: Colors.orange,
-                    //                     fontSize: 45,
-                    //                     fontWeight: FontWeight.bold),
-                    //               ),
-                    //               Text(
-                    //                 '.',
-                    //                 style: GoogleFonts.aBeeZee(
-                    //                     color: Colors.black,
-                    //                     fontSize: 60,
-                    //                     fontWeight: FontWeight.bold),
-                    //               ),
-                    //             ],
-                    //           ),
-                    //           Text(
-                    //             'Computer teacher and Flutter dev . ',
-                    //             style: GoogleFonts.cairo(
-                    //                 color: Colors.black,
-                    //                 fontSize: 20,
-                    //                 fontWeight: FontWeight.bold),
-                    //           ),
-                    //           Text(
-                    //             'More than 14 years of experience in teaching computer science. ',
-                    //             style: GoogleFonts.cairo(
-                    //                 color: Colors.black,
-                    //                 fontSize: 16,
-                    //                 fontWeight: FontWeight.bold),
-                    //           ),
-                    //           const SizedBox(
-                    //             height: 15,
-                    //           ),
-                    //           const Column(
-                    //             children: [
-                    //               InfoRow(
-                    //                   icon: Icons.person,
-                    //                   title: 'Name',
-                    //                   info: 'Khaled Khattab'),
-                    //               InfoRow(
-                    //                   icon: Icons.phone,
-                    //                   title: 'Phone',
-                    //                   info: '+965 99245950'),
-                    //               InfoRow(
-                    //                   icon: Icons.email,
-                    //                   title: 'Email',
-                    //                   info: 'Mrhasob@gmail.com'),
-                    //             ],
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Center(
@@ -871,74 +750,6 @@ class TakeOff extends StatelessWidget {
                             'لايوجد بيانات للعرض',
                             style: TextStyle(fontSize: 30),
                           ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 50),
-                    //   child: SizedBox(
-                    //     height: 400,
-                    //     child: Stack(
-                    //       children: [
-                    //         Positioned(
-                    //           bottom: 0,
-                    //           left: 50,
-                    //           right: 50,
-                    //           child: Container(
-                    //             width: MediaQuery.of(context).size.width - 200,
-                    //             height: 250,
-                    //             decoration: BoxDecoration(
-                    //               borderRadius: const BorderRadius.all(
-                    //                   Radius.circular(50)),
-                    //               color: Colors.grey.shade200,
-                    //             ),
-                    //             child: Padding(
-                    //               padding: const EdgeInsets.only(left: 100),
-                    //               child: Column(
-                    //                 mainAxisAlignment:
-                    //                     MainAxisAlignment.spaceEvenly,
-                    //                 crossAxisAlignment:
-                    //                     CrossAxisAlignment.start,
-                    //                 children: [
-                    //                   Text(
-                    //                     'contact Me',
-                    //                     style: GoogleFonts.cairo(
-                    //                         color: Colors.black,
-                    //                         fontSize: 20,
-                    //                         fontWeight: FontWeight.bold),
-                    //                   ),
-                    //                   Text('Got an idea? Lets Talk!',
-                    //                       style: GoogleFonts.cairo(
-                    //                           color: Colors.black,
-                    //                           fontSize: 40,
-                    //                           fontWeight: FontWeight.bold)),
-                    //                   Row(
-                    //                     children: [
-                    //                       const Icon(
-                    //                         Icons.email,
-                    //                         size: 30,
-                    //                         color: Colors.orange,
-                    //                       ),
-                    //                       Text('Mrhasob@gmail.com',
-                    //                           style: GoogleFonts.cairo(
-                    //                               color: Colors.orange,
-                    //                               fontSize: 20,
-                    //                               fontWeight: FontWeight.bold)),
-                    //                     ],
-                    //                   ),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         const Positioned(
-                    //             right: 50,
-                    //             bottom: -15,
-                    //             child: Image(
-                    //               image: AssetImage('images/idie.png'),
-                    //               width: 450,
-                    //             ))
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                     const SizedBox(
                       height: 50,
                     ),
