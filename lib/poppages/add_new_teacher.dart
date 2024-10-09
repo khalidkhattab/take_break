@@ -57,26 +57,31 @@ class NewTeacherWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormAlarm(
+              icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherNameController,
                 label: 'الاسم',
                 password: false,
                 alert: 'يجب ادحال اسم المعلم'),
             TextFormAlarm(
+                icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherTitleController,
                 label: 'المسمي',
                 password: false,
                 alert: 'يجب ادخال المسمى الوظيفي'),
             TextFormAlarm(
+                icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherCidController,
                 label: 'الرقم المدني',
                 password: false,
                 alert: 'يجب ادحال الرقم المدني'),
             TextFormAlarm(
+                icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherFileNumberController,
                 label: 'رقم الملف',
                 password: false,
                 alert: 'يجب ادحال رقم الملف '),
             TextFormAlarm(
+                icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherDepartController,
                 label: 'القسم',
                 password: false,
@@ -124,6 +129,7 @@ class NewTeacherWidget extends StatelessWidget {
               ),
             ),
             TextFormAlarm(
+                icon: Icon(Icons.nest_cam_wired_stand),
                 controller: teacherNesabController,
                 label: 'النصاب',
                 password: false,

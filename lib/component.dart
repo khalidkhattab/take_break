@@ -138,12 +138,14 @@ class TextFormAlarm extends StatelessWidget {
     required this.label,
     required this.password,
     required this.alert,
+   required this.icon,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final bool password;
   final String alert;
+  final Widget icon;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -167,18 +169,9 @@ class TextFormAlarm extends StatelessWidget {
                   return null;
                 },
                 obscureText: password,
-                // onChanged: (date){
-                //   showDatePicker(
-                //     context: context,
-                //     firstDate: DateTime(2000),
-                //     lastDate: DateTime(2040),
-                //   ).then((value){
-                //     print(value);
-                //     date="${value?.day}-${value?.month}-${value?.year}";
-                //   });
-                // },
                 controller: controller,
                 decoration: InputDecoration(
+                  prefixIcon: icon,
                   label: Text(label),
                   labelStyle:const TextStyle(color: Colors.deepOrange),
                   alignLabelWithHint: true,

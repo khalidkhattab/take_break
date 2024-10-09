@@ -43,21 +43,22 @@ class AddNewBreak extends StatelessWidget {
                             fileNumber: teacherFileNumberController.text,
                             dep: teacherDepartController.text,
                             date: breakDateController.text,
-                            leaveTime: leaveTimeController.text,
-                            returnTime: cubit.selectedTime)
+                            leaveTime: cubit.leaveTime.toString(),
+                            returnTime: cubit.returnTime.toString())
                         .then((value) {
                       (state is AddTeacherBreakErrorState)
                           ? showDialog(
                               context: context,
-                              builder: (context) =>  AlertDialog(
-                                    title:const Text('Error'),
-                                actions: [
-                                  MaterialButton(onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child:const Text('Ok'),
-                                  )
-                                ],
+                              builder: (context) => AlertDialog(
+                                    title: const Text('Error'),
+                                    actions: [
+                                      MaterialButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Ok'),
+                                      )
+                                    ],
                                   ))
                           : Navigator.push(
                               context,
@@ -80,62 +81,94 @@ class AddNewBreak extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormAlarm(
+                      icon: const Icon(Icons.person),
                       controller: teacherNameController
                         ..text = cubit.currentEmployee[0]?['name'],
                       label: 'الاسم',
                       password: false,
                       alert: 'يجب ادحال اسم المعلم'),
                   TextFormAlarm(
+                      icon: const Icon(Icons.important_devices),
                       controller: teacherTitleController
                         ..text = cubit.currentEmployee[0]?['title'],
                       label: 'المسمي',
                       password: false,
                       alert: 'يجب ادخال المسمى الوظيفي'),
                   TextFormAlarm(
+                      icon: const Icon(Icons.confirmation_num),
                       controller: teacherCidController
                         ..text = cubit.currentEmployee[0]?['cid'],
                       label: 'الرقم المدني',
                       password: false,
                       alert: 'يجب ادحال الرقم المدني'),
                   TextFormAlarm(
+                      icon: const Icon(Icons.confirmation_num),
                       controller: teacherFileNumberController
                         ..text = cubit.currentEmployee[0]?['file_num'],
                       label: 'رقم الملف',
                       password: false,
                       alert: 'يجب ادحال رقم الملف '),
                   TextFormAlarm(
+                      icon: const Icon(Icons.perm_contact_calendar),
                       controller: teacherDepartController
                         ..text = cubit.currentEmployee[0]?['dep'],
                       label: 'القسم',
                       password: false,
                       alert: 'يجب ادحال القسم'),
                   TextFormAlarm(
-                    controller: breakDateController,
+                    icon:IconButton(onPressed: ()async{
+                      final  DateTime?  leaveDate= await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1990),
+                      lastDate: DateTime(2040),);
+                      if( leaveDate != null){
+                        cubit.selectedDate=leaveDate;
+                        cubit.screenRefresh();
+                      }
+                    }, icon: const Icon(Icons.date_range_outlined)),
+                    controller: breakDateController..text="${cubit.selectedDate.day}-${cubit.selectedDate.month}-${cubit.selectedDate.year}",
                     label: 'تاريخ الاذن',
                     password: false,
                     alert: 'يجب ادحال تاريخ الاذن',
                   ),
                   TextFormAlarm(
-                      controller: leaveTimeController,
+                      icon: IconButton(
+                          onPressed: () async {
+                            final TimeOfDay? leaveTime = await showTimePicker(
+                              context: context,
+                              initialTime: cubit.leaveTime,
+                              initialEntryMode: TimePickerEntryMode.dial,
+                            );
+                            if (leaveTime != null) {
+                              cubit.leaveTime = leaveTime;
+                              cubit.screenRefresh();
+                            }
+                          },
+                          icon: Icon(Icons.timer)),
+                      controller: leaveTimeController..text="${cubit.leaveTime.hour}:${cubit.leaveTime.minute}",
                       label: 'وقت المغادرة ',
                       password: false,
                       alert: 'يجب ادحال وقت المغادرة'),
                   TextFormAlarm(
-                      controller: returnTimeController..text="${cubit.selectedTime.hour}:${cubit.selectedTime.minute}",
+                      icon: IconButton(
+                          onPressed: () async {
+                            final TimeOfDay? returnTime = await showTimePicker(
+                              context: context,
+                              initialTime: cubit.returnTime,
+                              initialEntryMode: TimePickerEntryMode.dial,
+                            );
+                            if (returnTime != null) {
+                              cubit.returnTime = returnTime;
+                              cubit.screenRefresh();
+                            }
+                          },
+                          icon: Icon(Icons.timer)),
+                      controller: returnTimeController
+                        ..text =
+                            "${cubit.returnTime.hour}:${cubit.returnTime.minute}",
                       label: 'وقت العودة',
                       password: false,
                       alert: 'يجب ادحال وقت العودة'),
-                  IconButton(onPressed: ()async{
-                    final TimeOfDay? timeOfDay=await showTimePicker(context: context, initialTime: cubit.selectedTime,
-                      initialEntryMode: TimePickerEntryMode.dial,
-
-                    );
-                    if(timeOfDay != null){
-                      cubit.selectedTime=timeOfDay;
-                      cubit.screenRefresh();
-                    }
-
-                  }, icon: Icon(Icons.timer))
                 ],
               ),
             ),

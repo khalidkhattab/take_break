@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_app/component.dart';
 import 'package:first_app/model.dart';
 import 'package:first_app/pdf_generate.dart';
-import 'package:first_app/pdf_rtl.dart';
 import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -520,6 +519,7 @@ class TakeOff extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextFormAlarm(
+                                  icon: Icon(Icons.nest_cam_wired_stand),
                                   alert: 'ادخل الرقم المدني',
                                   controller: teacherCidController,
                                   label: 'الرقم المدتي',

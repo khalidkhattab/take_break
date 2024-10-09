@@ -38,6 +38,7 @@ class SearchByCid extends StatelessWidget {
         title:
         const Center(child: Text("ادخل الرقم المدني")),
         content: TextFormAlarm(
+          icon: Icon(Icons.nest_cam_wired_stand),
           alert: 'ادخل الرقم المدني',
           controller: teacherCidController,
           label: 'الرقم المدتي',

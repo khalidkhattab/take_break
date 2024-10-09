@@ -12,7 +12,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   List<Map<String, dynamic>> allTeacher = [];
 
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime=TimeOfDay.now();
+  TimeOfDay returnTime=TimeOfDay.now(); //TimeOfDay(hour: TimeOfDay.now().hour+3,minute: 0);
+  TimeOfDay leaveTime=TimeOfDay.now();
 
   //to store current employee cid to return his data and break time
   late String currentCid = '283021205454';
@@ -108,7 +109,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String dep,
     required String date,
     required String leaveTime,
-    required TimeOfDay returnTime,
+    required String returnTime,
   }) async {
     await getEmployeeBreak(cid).then((value){
       emit(AddTeacherBreakLoadingState());
@@ -131,6 +132,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         getTeacherData();
         emit(AddTeacherBreakSuccessState());
       }).catchError((error) {
+        print(error.toString());
         emit(AddTeacherBreakErrorState());
       });
     });
