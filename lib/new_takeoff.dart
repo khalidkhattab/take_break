@@ -1,5 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:first_app/component.dart';
+
 import 'package:first_app/model.dart';
 import 'package:first_app/pdf_generate.dart';
 import 'package:first_app/poppages/add_new_break.dart';
@@ -11,8 +10,8 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'bloc/cubit.dart';
 import 'bloc/cubit_status.dart';
 
-class TakeOff extends StatelessWidget {
-  const TakeOff({super.key});
+class NewTeakOff extends StatelessWidget {
+  const NewTeakOff({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,20 +71,7 @@ class TakeOff extends StatelessWidget {
                     padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        //new
-                        FirebaseFirestore.instance
-                            .collection('dep')
-                            .doc('1000')
-                            .collection('teachers')
-                            .get()
-                            .then((value) {
-                          all_teacher = [];
-                          for (var action in value.docs) {
-                            // print(action.data());
-                            all_teacher.add(action.data());
-                            //print(all_teacher);
-                          }
-                        });
+                        cubit.getDepart();
                       },
                       style: ElevatedButton.styleFrom(
                         shape: const StadiumBorder(),
@@ -102,8 +88,8 @@ class TakeOff extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                         onPressed: () {
-                         PdfService().printCustomersPdf(cubit);
-                         // PdfServices().printMyPdf(cubit);
+                          PdfService().printCustomersPdf(cubit);
+                          // PdfServices().printMyPdf(cubit);
                         },
                         icon: const Icon(
                           Icons.print,
@@ -243,16 +229,32 @@ class TakeOff extends StatelessWidget {
                                     color: Colors.black,
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold),
-                              ))
+                              )),
+                          DropdownMenu<String>(
+                            width: 250,
+                            hintText: 'ادخل القسم',
+                            dropdownMenuEntries: cubit.department
+                                .map<DropdownMenuEntry<String>>((String dep) {
+                              return DropdownMenuEntry<String>(
+                                  value: dep,
+                                  label: dep,
+                                  leadingIcon: const Icon(
+                                      Icons.pause_circle_filled_sharp));
+                            }).toList(),
+                            onSelected: (val) {
+                              cubit.getDepartmentTeacher(val!);
+                            },
+                          )
                         ],
                       ),
                     ),
-                    if (cubit.allTeacher.isNotEmpty)
+                    if (cubit.departmentTeacher.isNotEmpty)
                       Container(
                         alignment: Alignment.center,
                         height: 350,
                         child: ListView.builder(
-                            itemCount: cubit.allTeacher.length, //program.length
+                            itemCount:
+                                cubit.departmentTeacher.length, //program.length
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => Padding(
@@ -278,111 +280,88 @@ class TakeOff extends StatelessWidget {
                                                         'images/me2.png'),
                                                     width: 150),
                                                 Text(
-                                                  cubit.allTeacher[index]
+                                                  cubit.departmentTeacher[index]
                                                       ['name'],
-                                                  style: GoogleFonts.lobster(
-                                                    fontSize: 22,
+                                                  style: const TextStyle(
+                                                    fontSize: 25,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 15),
-                                                  child: Wrap(children: [
-                                                    Text(
-                                                      cubit.allTeacher[index]
-                                                          ['dep'],
-                                                      maxLines:
-                                                          2, //2 or more line you want
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    )
-                                                  ]),
-                                                ),
-                                                MaterialButton(
-                                                  minWidth: 120,
-                                                  color: Colors.orange,
-                                                  onPressed: () {
-                                                    //
-
-                                                    //
-                                                    showDialog(
-                                                        context: (context),
-                                                        builder:
-                                                            (context) =>
-                                                                AlertDialog(
-                                                                  // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                                  elevation: 10,
-
-                                                                  content:
-                                                                      Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    children: [
-                                                                      const Padding(
-                                                                        padding:
-                                                                            EdgeInsets.all(30.0),
-                                                                        child: Image(
-                                                                            image:
-                                                                                AssetImage('images/c++.png'),
-                                                                            width: 160),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            vertical:
-                                                                                20),
-                                                                        child:
-                                                                            Text(
-                                                                          cubit.allTeacher[index]
+                                                // Padding(
+                                                //   padding: const EdgeInsets
+                                                //       .symmetric(
+                                                //       horizontal: 15),
+                                                //   child: Wrap(children: [
+                                                //     Text(
+                                                //       cubit.departmentTeacher[index]
+                                                //           ['dep'],
+                                                //       maxLines:
+                                                //           2, //2 or more line you want
+                                                //       overflow:
+                                                //           TextOverflow.ellipsis,
+                                                //     )
+                                                //   ]),
+                                                // ),
+                                                Container(
+                                                  color:
+                                                      Colors.blueGrey.shade200,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      IconButton(
+                                                          onPressed: () {},
+                                                          icon: const Icon(
+                                                              Icons
+                                                                  .info_outline,
+                                                              color:
+                                                                  Colors.yellow,
+                                                              size: 30)),
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            PdfService().printCustomersPdf(cubit);
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.print,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 30)),
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            cubit.getEmployeeBreak(
+                                                                cubit.departmentTeacher[
+                                                                        index]
+                                                                    ['cid']);
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .search_rounded,
+                                                            color: Colors
+                                                                .deepOrange,
+                                                            size: 30,
+                                                          )),
+                                                      IconButton(
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        AddNewBreak(
+                                                                          cid: cubit.departmentTeacher[index]
                                                                               [
-                                                                              'name'],
-                                                                          style:
-                                                                              GoogleFonts.lobster(
-                                                                            fontSize:
-                                                                                30,
-                                                                            color:
-                                                                                Colors.grey,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                            horizontal:
-                                                                                15),
-                                                                        child: Wrap(
-                                                                            children: [
-                                                                              Text(
-                                                                                cubit.allTeacher[index]['cid'],
-                                                                                maxLines: 2, //2 or more line you want
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                              )
-                                                                            ]),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  actions: [
-                                                                    MaterialButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      color: Colors
-                                                                          .green,
-                                                                      child: const Text(
-                                                                          'Ok'),
-                                                                    )
-                                                                  ],
-                                                                ));
-                                                  },
-                                                  child: const Text(
-                                                    'Read more',
-                                                    style: TextStyle(
-                                                        color: Colors.white),
+                                                                              'cid'],
+                                                                          index:
+                                                                              index,
+                                                                        ));
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.add,
+                                                              color: Colors
+                                                                  .indigoAccent,
+                                                              size: 30))
+                                                    ],
                                                   ),
                                                 )
                                               ],
@@ -500,43 +479,43 @@ class TakeOff extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'البحث عن اذونات موظف',
+                              ' اذونات موظف',
                               style: GoogleFonts.cairo(
                                   color: Colors.black,
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Text(
-                              'ادخل الرقم المدني ',
-                              style: GoogleFonts.cairo(
-                                  color: Colors.grey,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextFormAlarm(
-                                  icon: Icon(Icons.nest_cam_wired_stand),
-                                  alert: 'ادخل الرقم المدني',
-                                  controller: teacherCidController,
-                                  label: 'الرقم المدتي',
-                                  password: false,
-                                ),
-                                ( cubit.employeeBreak.length==0 && cubit.currentCid.length>11)?
-
-                                const Text(
-                                  'الموظف ليس لدية اذونات ',
-                                  style: TextStyle(fontSize: 30),
-                                ):
-                                Text(
-                                  cubit.employeeBreak.length.toString(),
-                                  style: const TextStyle(fontSize: 30),
-                                )
-                              ],
-                            ),
+                            // Text(
+                            //   'ادخل الرقم المدني ',
+                            //   style: GoogleFonts.cairo(
+                            //       color: Colors.grey,
+                            //       fontSize: 20,
+                            //       fontWeight: FontWeight.bold),
+                            // ),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   mainAxisSize: MainAxisSize.min,
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     TextFormAlarm(
+                            //       icon: Icon(Icons.nest_cam_wired_stand),
+                            //       alert: 'ادخل الرقم المدني',
+                            //       controller: teacherCidController,
+                            //       label: 'الرقم المدتي',
+                            //       password: false,
+                            //     ),
+                            //     (cubit.employeeBreak.length == 0 &&
+                            //             cubit.currentCid.length > 11)
+                            //         ? const Text(
+                            //             'الموظف ليس لدية اذونات ',
+                            //             style: TextStyle(fontSize: 30),
+                            //           )
+                            //         : Text(
+                            //             cubit.employeeBreak.length.toString(),
+                            //             style: const TextStyle(fontSize: 30),
+                            //           )
+                            //   ],
+                            // ),
                             MaterialButton(
                               height: 60,
                               color: Colors.orange,
@@ -566,11 +545,10 @@ class TakeOff extends StatelessWidget {
                     ),
                     (cubit.employeeBreak.isNotEmpty)
                         ? Center(
-                          child: SizedBox(
-                                                height: 360,
-                            child: ListView(
-
-                            scrollDirection: Axis.horizontal,
+                            child: SizedBox(
+                              height: 360,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
                                 children: <Widget>[
                                   Container(
                                       alignment: Alignment.center,
@@ -580,16 +558,19 @@ class TakeOff extends StatelessWidget {
                                           physics: ScrollPhysics(),
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) => Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 30, vertical: 30),
+                                          itemBuilder: (context, index) =>
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 30,
+                                                        vertical: 30),
                                                 child: Card(
                                                   elevation: 10,
                                                   // color: projectList[index].color,
                                                   child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                            vertical: 15),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 15),
                                                     child: Stack(
                                                       children: [
                                                         SizedBox(
@@ -608,38 +589,38 @@ class TakeOff extends StatelessWidget {
                                                                   width: 80),
                                                               Text(
                                                                 cubit.employeeBreak[
-                                                                    index]['date'],
-                                                                style: GoogleFonts
-                                                                    .lobster(
+                                                                        index]
+                                                                    ['date'],
+                                                                style:
+                                                                    GoogleFonts
+                                                                        .lobster(
                                                                   fontSize: 30,
-                                                                  color:
-                                                                      Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                 ),
                                                               ),
                                                               Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .symmetric(
-                                                                        horizontal:
-                                                                            15),
-                                                                child:
-                                                                    Wrap(children: [
-                                                                  Text(
-                                                                    cubit.employeeBreak[
-                                                                            index][
-                                                                        'leaveTime'],
-                                                                    maxLines:
-                                                                        2, //2 or more line you want
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                  )
-                                                                ]),
+                                                                padding: const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        15),
+                                                                child: Wrap(
+                                                                    children: [
+                                                                      Text(
+                                                                        cubit.employeeBreak[index]
+                                                                            [
+                                                                            'leaveTime'],
+                                                                        maxLines:
+                                                                            2, //2 or more line you want
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      )
+                                                                    ]),
                                                               ),
                                                               MaterialButton(
                                                                 minWidth: 120,
-                                                                color:
-                                                                    Colors.orange,
+                                                                color: Colors
+                                                                    .orange,
                                                                 onPressed: () {
                                                                   //
 
@@ -651,11 +632,9 @@ class TakeOff extends StatelessWidget {
                                                                           (context) =>
                                                                               AlertDialog(
                                                                                 // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
-                                                                                elevation:
-                                                                                    10,
+                                                                                elevation: 10,
 
-                                                                                content:
-                                                                                    Column(
+                                                                                content: Column(
                                                                                   mainAxisSize: MainAxisSize.min,
                                                                                   children: [
                                                                                     const Padding(
@@ -695,7 +674,8 @@ class TakeOff extends StatelessWidget {
                                                                                 ],
                                                                               ));
                                                                 },
-                                                                child: const Text(
+                                                                child:
+                                                                    const Text(
                                                                   'Read more',
                                                                   style: TextStyle(
                                                                       color: Colors
@@ -709,7 +689,8 @@ class TakeOff extends StatelessWidget {
                                                             onPressed: () {
                                                               cubit.deleteEmployeeBreak(
                                                                   cubit.employeeBreak[
-                                                                      index]['cid'],
+                                                                          index]
+                                                                      ['cid'],
                                                                   cubit.employeeBreak[
                                                                           index]
                                                                       ['doc']);
@@ -718,9 +699,10 @@ class TakeOff extends StatelessWidget {
                                                                     is DeleteTeacherBreakLoadingState)
                                                                 ? CircularProgressIndicator()
                                                                 : const Icon(
-                                                                    Icons.delete,
-                                                                    color:
-                                                                        Colors.red,
+                                                                    Icons
+                                                                        .delete,
+                                                                    color: Colors
+                                                                        .red,
                                                                   ))
                                                       ],
                                                     ),
@@ -729,8 +711,8 @@ class TakeOff extends StatelessWidget {
                                               ))),
                                   Padding(
                                     //الاذونات
-                                  padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 30),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 30),
                                     child: Card(
                                       elevation: 10,
                                       child: Container(
@@ -739,23 +721,36 @@ class TakeOff extends StatelessWidget {
                                         height: 200,
                                         child: IconButton(
                                             onPressed: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.employeeBreak[
-                                              0]['cid'], index: 0,))).then((val){
-                                                cubit.getEmployeeBreak(cubit.employeeBreak[
-                                                0]['cid']);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          AddNewBreak(
+                                                              cid: cubit
+                                                                      .employeeBreak[0]
+                                                                  [
+                                                                  'cid'], index: 0,))).then(
+                                                  (val) {
+                                                cubit.getEmployeeBreak(cubit
+                                                    .employeeBreak[0]['cid']);
                                               });
-                                            }, icon:const Icon(Icons.add, size: 40,color: Colors.orange,)),
+                                            },
+                                            icon: const Icon(
+                                              Icons.add,
+                                              size: 40,
+                                              color: Colors.orange,
+                                            )),
                                       ),
                                     ),
                                   )
                                 ],
                               ),
+                            ),
+                          )
+                        : const Text(
+                            'لايوجد بيانات للعرض',
+                            style: TextStyle(fontSize: 30),
                           ),
-                        )
-                        :  const Text(
-                      'لايوجد بيانات للعرض',
-                      style: TextStyle(fontSize: 30),
-                    ),
                     const SizedBox(
                       height: 50,
                     ),

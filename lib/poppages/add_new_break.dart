@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/cubit.dart';
 import '../bloc/cubit_status.dart';
 import '../component.dart';
-import '../takeoff.dart';
 
 class AddNewBreak extends StatelessWidget {
-  const AddNewBreak({super.key, required this.cid});
+  const AddNewBreak({super.key, required this.cid, required this.index});
 
   final String cid;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     TextEditingController teacherNameController = TextEditingController();
     TextEditingController teacherTitleController = TextEditingController();
@@ -34,7 +34,7 @@ class AddNewBreak extends StatelessWidget {
               MaterialButton(
                 color: Colors.green,
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     cubit
                         .addNewBreak(
                             cid: cid,
@@ -43,8 +43,8 @@ class AddNewBreak extends StatelessWidget {
                             fileNumber: teacherFileNumberController.text,
                             dep: teacherDepartController.text,
                             date: breakDateController.text,
-                            leaveTime: cubit.leaveTime.toString(),
-                            returnTime: cubit.returnTime.toString())
+                            leaveTime: "${cubit.leaveTime.hour}:${cubit.leaveTime.minute}",
+                            returnTime: "${cubit.returnTime.hour}:${cubit.returnTime.minute}")
                         .then((value) {
                       (state is AddTeacherBreakErrorState)
                           ? showDialog(
@@ -60,10 +60,10 @@ class AddNewBreak extends StatelessWidget {
                                       )
                                     ],
                                   ))
-                          : Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const TakeOff()));
+                          : cubit.getEmployeeBreak(cid).then((val){
+
+                        Navigator.pop(context);
+                      });
                     });
                   }
                 },
@@ -76,42 +76,42 @@ class AddNewBreak extends StatelessWidget {
             ],
             actionsAlignment: MainAxisAlignment.center,
             content: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   TextFormAlarm(
                       icon: const Icon(Icons.person),
                       controller: teacherNameController
-                        ..text = cubit.currentEmployee[0]?['name'],
+                        ..text = cubit.departmentTeacher[index]['name'],
                       label: 'الاسم',
                       password: false,
                       alert: 'يجب ادحال اسم المعلم'),
                   TextFormAlarm(
                       icon: const Icon(Icons.important_devices),
                       controller: teacherTitleController
-                        ..text = cubit.currentEmployee[0]?['title'],
+                        ..text = cubit.departmentTeacher[index]['title'],
                       label: 'المسمي',
                       password: false,
                       alert: 'يجب ادخال المسمى الوظيفي'),
                   TextFormAlarm(
                       icon: const Icon(Icons.confirmation_num),
                       controller: teacherCidController
-                        ..text = cubit.currentEmployee[0]?['cid'],
+                        ..text = cubit.departmentTeacher[index]['cid'],
                       label: 'الرقم المدني',
                       password: false,
                       alert: 'يجب ادحال الرقم المدني'),
                   TextFormAlarm(
                       icon: const Icon(Icons.confirmation_num),
                       controller: teacherFileNumberController
-                        ..text = cubit.currentEmployee[0]?['file_num'],
+                        ..text = cubit.departmentTeacher[index]['file_num'],
                       label: 'رقم الملف',
                       password: false,
                       alert: 'يجب ادحال رقم الملف '),
                   TextFormAlarm(
                       icon: const Icon(Icons.perm_contact_calendar),
                       controller: teacherDepartController
-                        ..text = cubit.currentEmployee[0]?['dep'],
+                        ..text = cubit.departmentTeacher[index]['dep'],
                       label: 'القسم',
                       password: false,
                       alert: 'يجب ادحال القسم'),
@@ -144,7 +144,7 @@ class AddNewBreak extends StatelessWidget {
                               cubit.screenRefresh();
                             }
                           },
-                          icon: Icon(Icons.timer)),
+                          icon: const Icon(Icons.timer)),
                       controller: leaveTimeController..text="${cubit.leaveTime.hour}:${cubit.leaveTime.minute}",
                       label: 'وقت المغادرة ',
                       password: false,
@@ -162,7 +162,7 @@ class AddNewBreak extends StatelessWidget {
                               cubit.screenRefresh();
                             }
                           },
-                          icon: Icon(Icons.timer)),
+                          icon: const Icon(Icons.timer)),
                       controller: returnTimeController
                         ..text =
                             "${cubit.returnTime.hour}:${cubit.returnTime.minute}",

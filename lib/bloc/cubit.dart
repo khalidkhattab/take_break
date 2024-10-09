@@ -12,11 +12,12 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
   List<Map<String, dynamic>> allTeacher = [];
 
   DateTime selectedDate = DateTime.now();
-  TimeOfDay returnTime=TimeOfDay.now(); //TimeOfDay(hour: TimeOfDay.now().hour+3,minute: 0);
-  TimeOfDay leaveTime=TimeOfDay.now();
+  TimeOfDay returnTime =
+      TimeOfDay.now(); //TimeOfDay(hour: TimeOfDay.now().hour+3,minute: 0);
+  TimeOfDay leaveTime = TimeOfDay.now();
 
   //to store current employee cid to return his data and break time
-  late String currentCid = '283021205454';
+  late String currentCid = '';
 
   getTeacherData() {
     allTeacher = [];
@@ -90,16 +91,52 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     });
   }
 
+  List<String> department = [];
   getDepart() {
-    FirebaseFirestore.instance.collection('dep').get().then((value) {
+    department = [];
+    emit(GetDepartmentDataLoadingState());
+    FirebaseFirestore.instance.collection('employee').get().then((value) {
       for (var val in value.docs) {
-        print(val.data());
+        department.add(val.data()['dep']);
+        emit(GetDepartmentDataSuccessState());
+        print(department);
       }
+    }).catchError((error){
+      emit(GetDepartmentDataErrorState());
     });
   }
+
+
 //we can store department in list of map
 //   {title: computer}
 //   {title: Math}
+
+
+  //get employee data by department
+
+  List<Map<String, dynamic>> departmentTeacher=[];
+  Future getDepartmentTeacher(String dep) async {
+    departmentTeacher = [];
+    emit(GetDepTeacherDataLoadingState());
+    await FirebaseFirestore.instance
+        .collection('employee')
+        .get()
+        .then((value) {
+      for (var val in value.docs) {
+        if (val.data()['dep']== dep){
+          departmentTeacher.add(val.data());
+        }
+        print("data here is : ${departmentTeacher}");
+        emit(GetDepTeacherDataSuccessState());
+      }
+      emit(GetCurrentEmployeeDataSuccessState());
+    }).catchError((error) {
+      emit(GetDepTeacherDataErrorState());
+    });
+  }
+
+
+
 
   Future<void> addNewBreak({
     required String cid,
@@ -111,13 +148,13 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     required String leaveTime,
     required String returnTime,
   }) async {
-    await getEmployeeBreak(cid).then((value){
+    await getEmployeeBreak(cid).then((value) {
       emit(AddTeacherBreakLoadingState());
       FirebaseFirestore.instance
           .collection('employee')
           .doc(cid)
           .collection('ezn')
-          .doc((employeeBreak.length+1).toString())
+          .doc((employeeBreak.length + 1).toString())
           .set({
         'cid': cid,
         'file_num': fileNumber,
@@ -127,7 +164,7 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         'leaveTime': leaveTime,
         'returnTime': returnTime,
         'dep': dep,
-        'doc':(employeeBreak.length+1).toString()
+        'doc': (employeeBreak.length + 1).toString()
       }).then((val) {
         getTeacherData();
         emit(AddTeacherBreakSuccessState());
@@ -136,7 +173,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         emit(AddTeacherBreakErrorState());
       });
     });
-
   }
 
   screenRefresh() {
@@ -155,18 +191,16 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .collection('ezn')
         .get()
         .then((value) {
-      for (var ezn in value.docs){
+      for (var ezn in value.docs) {
         employeeBreak.add(ezn.data());
       }
       // print list for test only
       print(employeeBreak);
       emit(GetTeacherBreakSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(GetTeacherBreakErrorState());
     });
   }
-
 
   Future<void> deleteEmployeeBreak(String cid, String docs) async {
     emit(DeleteTeacherBreakErrorState());
@@ -175,13 +209,13 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .collection('employee')
         .doc(cid)
         .collection('ezn')
-        .doc(docs).delete()
+        .doc(docs)
+        .delete()
         .then((value) {
       // print list for test only
       getEmployeeBreak(cid);
       emit(DeleteTeacherBreakSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(DeleteTeacherBreakErrorState());
     });
   }

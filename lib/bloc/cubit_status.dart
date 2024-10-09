@@ -42,3 +42,13 @@ class RefreshState extends TakeBreakStatus{}
 class DeleteTeacherBreakLoadingState extends TakeBreakStatus{}
 class DeleteTeacherBreakSuccessState extends TakeBreakStatus{}
 class DeleteTeacherBreakErrorState extends TakeBreakStatus{}
+
+
+class GetDepartmentDataLoadingState extends TakeBreakStatus{}
+class GetDepartmentDataSuccessState extends TakeBreakStatus{}
+class GetDepartmentDataErrorState extends TakeBreakStatus{}
+
+
+class GetDepTeacherDataLoadingState extends TakeBreakStatus{}
+class GetDepTeacherDataSuccessState extends TakeBreakStatus{}
+class GetDepTeacherDataErrorState extends TakeBreakStatus{}

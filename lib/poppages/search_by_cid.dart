@@ -1,4 +1,3 @@
-import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,7 +26,7 @@ class SearchByCid extends StatelessWidget {
                   teacherCidController.text).then((value){
                 // print(cubit.currentEmployee[0]?['cid']);
                 // (state is GetCurrentEmployeeDataSuccessState)?
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid'])));
+                // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid'])));
                 // showDialog(context: context, builder: (context)=>AddNewBreak(cid:cubit.currentEmployee[0]?['cid']));
               });
 

@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:first_app/bloc/cubit.dart';
 import 'package:first_app/model.dart';
-import 'package:first_app/takeoff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'bloc/cubit_observer.dart';
 import 'bloc/cubit_status.dart';
+import 'new_takeoff.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,7 @@ void main() async {
     BlocProvider(
       create: (BuildContext context) => TeakBreakCubit()
         ..getTeacherData()
-        ..getEmployeeData('283021205454'),
+        ..getDepart(),
       child: const MyApp(),
     ),
   );
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
                   strokeWidth: 1,
                 ),
               )
-            : const TakeOff(); //const
+            : const NewTeakOff(); //const TakeOff()
       }, listener: (context, state) {
         if (state is GetTeacherDataLoadingState) {
           const CircularProgressIndicator();
