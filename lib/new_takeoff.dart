@@ -1,4 +1,3 @@
-
 import 'package:first_app/model.dart';
 import 'package:first_app/pdf_generate.dart';
 import 'package:first_app/poppages/add_new_break.dart';
@@ -15,7 +14,7 @@ class NewTeakOff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late TextEditingController teacherCidController = TextEditingController();
+
     return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
         builder: (BuildContext context, state) {
           final cubit = TeakBreakCubit.get(context);
@@ -283,7 +282,7 @@ class NewTeakOff extends StatelessWidget {
                                                   cubit.departmentTeacher[index]
                                                       ['name'],
                                                   style: const TextStyle(
-                                                    fontSize: 25,
+                                                    fontSize: 20,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
@@ -311,7 +310,85 @@ class NewTeakOff extends StatelessWidget {
                                                             .spaceBetween,
                                                     children: [
                                                       IconButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            showDialog(
+                                                                context:
+                                                                    (context),
+                                                                builder:
+                                                                    (context) =>
+                                                                        Directionality(
+                                                                          textDirection: TextDirection.rtl,
+                                                                          child: AlertDialog(
+                                                                            // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
+                                                                            elevation:
+                                                                                10,
+
+                                                                            content:
+                                                                                Column(
+                                                                              mainAxisSize:
+                                                                                  MainAxisSize.min,
+                                                                              children: [
+                                                                                const Padding(
+                                                                                  padding: EdgeInsets.all(30.0),
+                                                                                  child: Image(image: AssetImage('images/me2.png'), width: 160),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                                                                  child: Text(
+                                                                                    cubit.departmentTeacher[index]['name'],
+                                                                                    style: const TextStyle(
+                                                                                      fontSize: 25,
+                                                                                      color: Colors.grey,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                                                  child: Row(children: [
+                                                                                    const Text('القسم : '),
+                                                                                    Text(
+                                                                                      cubit.departmentTeacher[index]['dep'],
+                                                                                      maxLines: 2, //2 or more line you want
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                    )
+                                                                                  ]),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                                                  child: Row(children: [
+                                                                                    const Text('الرقم المدني : '),
+                                                                                    Text(
+                                                                                      cubit.departmentTeacher[index]['cid'],
+                                                                                      maxLines: 2, //2 or more line you want
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                    )
+                                                                                  ]),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                                                                  child: Row(children: [
+                                                                                    const Text('رقم الملف : '),
+                                                                                    Text(
+                                                                                      cubit.departmentTeacher[index]['file_num'],
+                                                                                      maxLines: 2, //2 or more line you want
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                    )
+                                                                                  ]),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            actions: [
+                                                                              MaterialButton(
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                color: Colors.green,
+                                                                                child: const Text('اغلاق'),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ));
+                                                          },
                                                           icon: const Icon(
                                                               Icons
                                                                   .info_outline,
@@ -320,7 +397,9 @@ class NewTeakOff extends StatelessWidget {
                                                               size: 30)),
                                                       IconButton(
                                                           onPressed: () {
-                                                            PdfService().printCustomersPdf(cubit);
+                                                            PdfService()
+                                                                .printCustomersPdf(
+                                                                    cubit);
                                                           },
                                                           icon: const Icon(
                                                               Icons.print,
@@ -485,60 +564,20 @@ class NewTeakOff extends StatelessWidget {
                                   fontSize: 30,
                                   fontWeight: FontWeight.bold),
                             ),
-                            // Text(
-                            //   'ادخل الرقم المدني ',
-                            //   style: GoogleFonts.cairo(
-                            //       color: Colors.grey,
-                            //       fontSize: 20,
-                            //       fontWeight: FontWeight.bold),
-                            // ),
-                            // Row(
-                            //   crossAxisAlignment: CrossAxisAlignment.center,
-                            //   mainAxisSize: MainAxisSize.min,
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                            //     TextFormAlarm(
-                            //       icon: Icon(Icons.nest_cam_wired_stand),
-                            //       alert: 'ادخل الرقم المدني',
-                            //       controller: teacherCidController,
-                            //       label: 'الرقم المدتي',
-                            //       password: false,
-                            //     ),
-                            //     (cubit.employeeBreak.length == 0 &&
-                            //             cubit.currentCid.length > 11)
-                            //         ? const Text(
-                            //             'الموظف ليس لدية اذونات ',
-                            //             style: TextStyle(fontSize: 30),
-                            //           )
-                            //         : Text(
-                            //             cubit.employeeBreak.length.toString(),
-                            //             style: const TextStyle(fontSize: 30),
-                            //           )
-                            //   ],
-                            // ),
-                            MaterialButton(
-                              height: 60,
-                              color: Colors.orange,
-                              onPressed: () {
-                                cubit
-                                    .getEmployeeBreak(teacherCidController.text)
-                                    .then((value) {});
-                              },
-                              child: (state is GetTeacherBreakLoadingState)
-                                  ? const SizedBox(
-                                      height: 50,
-                                      child: LoadingIndicator(
-                                        indicatorType: Indicator.lineScale,
-                                        colors: [Colors.white],
+                            (state is GetTeacherBreakLoadingState)
+                                ? const SizedBox(
+                                    height: 50,
+                                    child: LoadingIndicator(
+                                      indicatorType: Indicator.lineScale,
+                                      colors: [Colors.white],
 
-                                        /// Optional, The color collections
-                                        strokeWidth: 2,
+                                      /// Optional, The color collections
+                                      strokeWidth: 2,
 
-                                        /// Optional, The stroke of the line, only applicable to widget which contains line
-                                      ),
-                                    )
-                                  : const Text('بحث'),
-                            )
+                                      /// Optional, The stroke of the line, only applicable to widget which contains line
+                                    ),
+                                  )
+                                : const Text(''),
                           ],
                         ),
                       ),
@@ -555,7 +594,7 @@ class NewTeakOff extends StatelessWidget {
                                       height: 350,
                                       child: ListView.builder(
                                           itemCount: cubit.employeeBreak.length,
-                                          physics: ScrollPhysics(),
+                                          physics: const ScrollPhysics(),
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) =>
@@ -697,7 +736,7 @@ class NewTeakOff extends StatelessWidget {
                                                             },
                                                             icon: (state
                                                                     is DeleteTeacherBreakLoadingState)
-                                                                ? CircularProgressIndicator()
+                                                                ? const CircularProgressIndicator()
                                                                 : const Icon(
                                                                     Icons
                                                                         .delete,
@@ -726,11 +765,11 @@ class NewTeakOff extends StatelessWidget {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           AddNewBreak(
-                                                              cid: cubit
-                                                                      .employeeBreak[0]
-                                                                  [
-                                                                  'cid'], index: 0,))).then(
-                                                  (val) {
+                                                            cid: cubit
+                                                                    .employeeBreak[
+                                                                0]['cid'],
+                                                            index: 0,
+                                                          ))).then((val) {
                                                 cubit.getEmployeeBreak(cubit
                                                     .employeeBreak[0]['cid']);
                                               });

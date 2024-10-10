@@ -97,7 +97,12 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     emit(GetDepartmentDataLoadingState());
     FirebaseFirestore.instance.collection('employee').get().then((value) {
       for (var val in value.docs) {
-        department.add(val.data()['dep']);
+        if (department.contains(val.data()['dep'])){
+          department=department;
+        }else{
+          department.add(val.data()['dep']);
+        }
+
         emit(GetDepartmentDataSuccessState());
         print(department);
       }
@@ -124,7 +129,9 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
         .then((value) {
       for (var val in value.docs) {
         if (val.data()['dep']== dep){
-          departmentTeacher.add(val.data());
+
+              departmentTeacher.add(val.data());
+
         }
         print("data here is : ${departmentTeacher}");
         emit(GetDepTeacherDataSuccessState());

@@ -64,8 +64,7 @@ class TakeOff extends StatelessWidget {
                           strokeWidth: 1,
 
                           /// Optional, The stroke of the line, only applicable to widget which contains line
-                          // backgroundColor: Colors.black,      /// Optional, Background of the widget
-                          // pathBackgroundColor: Colors.black   /// Optional, the stroke backgroundColor
+
                         )
                       : const Text(''),
                   Padding(
