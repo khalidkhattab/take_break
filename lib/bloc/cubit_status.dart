@@ -52,3 +52,8 @@ class GetDepartmentDataErrorState extends TakeBreakStatus{}
 class GetDepTeacherDataLoadingState extends TakeBreakStatus{}
 class GetDepTeacherDataSuccessState extends TakeBreakStatus{}
 class GetDepTeacherDataErrorState extends TakeBreakStatus{}
+
+
+class UploadImageLoadingState extends TakeBreakStatus{}
+class UploadImageSuccessState extends TakeBreakStatus{}
+class UploadImageErrorState extends TakeBreakStatus{}

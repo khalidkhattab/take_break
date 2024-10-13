@@ -87,11 +87,11 @@ class NewTeakOff extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                         onPressed: () {
-                          PdfService().printCustomersPdf(cubit);
+                          cubit.pickImage();
                           // PdfServices().printMyPdf(cubit);
                         },
                         icon: const Icon(
-                          Icons.print,
+                          Icons.camera,
                           color: Colors.green,
                         )),
                   ),

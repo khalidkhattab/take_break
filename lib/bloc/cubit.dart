@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../bloc/cubit_status.dart';
 
@@ -97,41 +101,34 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     emit(GetDepartmentDataLoadingState());
     FirebaseFirestore.instance.collection('employee').get().then((value) {
       for (var val in value.docs) {
-        if (department.contains(val.data()['dep'])){
-          department=department;
-        }else{
+        if (department.contains(val.data()['dep'])) {
+          department = department;
+        } else {
           department.add(val.data()['dep']);
         }
 
         emit(GetDepartmentDataSuccessState());
         print(department);
       }
-    }).catchError((error){
+    }).catchError((error) {
       emit(GetDepartmentDataErrorState());
     });
   }
-
 
 //we can store department in list of map
 //   {title: computer}
 //   {title: Math}
 
-
   //get employee data by department
 
-  List<Map<String, dynamic>> departmentTeacher=[];
+  List<Map<String, dynamic>> departmentTeacher = [];
   Future getDepartmentTeacher(String dep) async {
     departmentTeacher = [];
     emit(GetDepTeacherDataLoadingState());
-    await FirebaseFirestore.instance
-        .collection('employee')
-        .get()
-        .then((value) {
+    await FirebaseFirestore.instance.collection('employee').get().then((value) {
       for (var val in value.docs) {
-        if (val.data()['dep']== dep){
-
-              departmentTeacher.add(val.data());
-
+        if (val.data()['dep'] == dep) {
+          departmentTeacher.add(val.data());
         }
         print("data here is : ${departmentTeacher}");
         emit(GetDepTeacherDataSuccessState());
@@ -141,9 +138,6 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
       emit(GetDepTeacherDataErrorState());
     });
   }
-
-
-
 
   Future<void> addNewBreak({
     required String cid,
@@ -224,6 +218,22 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
       emit(DeleteTeacherBreakSuccessState());
     }).catchError((error) {
       emit(DeleteTeacherBreakErrorState());
+    });
+  }
+
+  final ImagePicker imagePicker = ImagePicker();
+  Future<void> pickImage() async {
+    emit(UploadImageLoadingState());
+
+    imagePicker.pickImage(source: ImageSource.gallery).then((value) {
+      if (value != null) {
+        FirebaseStorage.instance.ref().child("images/${DateTime.now().microsecondsSinceEpoch}.png").putFile(File(value.path)).then((value){
+          emit(UploadImageSuccessState());
+        });
+      }
+    }).catchError((error) {
+      print(error.toString());
+      emit(UploadImageErrorState());
     });
   }
 }
