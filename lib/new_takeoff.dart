@@ -233,12 +233,14 @@ class NewTeakOff extends StatelessWidget {
                             width: 250,
                             hintText: 'ادخل القسم',
                             dropdownMenuEntries: cubit.department
+
+
                                 .map<DropdownMenuEntry<String>>((String dep) {
                               return DropdownMenuEntry<String>(
                                   value: dep,
                                   label: dep,
                                   leadingIcon: const Icon(
-                                      Icons.pause_circle_filled_sharp));
+                                      Icons.arrow_forward_ios_outlined, color: Colors.deepOrange,));
                             }).toList(),
                             onSelected: (val) {
                               cubit.getDepartmentTeacher(val!);
