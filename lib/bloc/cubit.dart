@@ -72,7 +72,8 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
       'nesab': nesab,
       'title': title,
       'hairDate': hairDate,
-      'dep': dep
+      'dep': dep,
+      'image':'https://firebasestorage.googleapis.com/v0/b/take-break-8b0b1.appspot.com/o/images%2Fteacher%2Fman.png?alt=media&token=ec7314ab-0668-437a-a223-3a6008ea5aba'
     }).then((val) {
       getTeacherData();
       emit(AddTeacherDataSuccessState());
@@ -226,8 +227,14 @@ class TeakBreakCubit extends Cubit<TakeBreakStatus> {
     emit(UploadImageLoadingState());
 
     imagePicker.pickImage(source: ImageSource.gallery).then((value) {
+      print("here");
+      print(value?.path);
       if (value != null) {
-        FirebaseStorage.instance.ref().child("images/${DateTime.now().microsecondsSinceEpoch}.png").putFile(File(value.path)).then((value){
+        FirebaseStorage.instance
+            .ref()
+            .child("images/${DateTime.now().microsecondsSinceEpoch}.png")
+            .putFile(File(value.path))
+            .then((value) {
           emit(UploadImageSuccessState());
         });
       }

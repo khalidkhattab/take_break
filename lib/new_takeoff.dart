@@ -14,7 +14,6 @@ class NewTeakOff extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocConsumer<TeakBreakCubit, TakeBreakStatus>(
         builder: (BuildContext context, state) {
           final cubit = TeakBreakCubit.get(context);
@@ -233,14 +232,14 @@ class NewTeakOff extends StatelessWidget {
                             width: 250,
                             hintText: 'ادخل القسم',
                             dropdownMenuEntries: cubit.department
-
-
                                 .map<DropdownMenuEntry<String>>((String dep) {
                               return DropdownMenuEntry<String>(
                                   value: dep,
                                   label: dep,
                                   leadingIcon: const Icon(
-                                      Icons.arrow_forward_ios_outlined, color: Colors.deepOrange,));
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.deepOrange,
+                                  ));
                             }).toList(),
                             onSelected: (val) {
                               cubit.getDepartmentTeacher(val!);
@@ -276,10 +275,25 @@ class NewTeakOff extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                const Image(
-                                                    image: AssetImage(
-                                                        'images/me2.png'),
-                                                    width: 150),
+                                                (state
+                                                        is GetTeacherDataLoadingState)
+                                                    ? const CircularProgressIndicator(
+                                                        color:
+                                                            Colors.deepOrange,
+                                                      )
+                                                    : (cubit.departmentTeacher[
+                                                                    index]
+                                                                ['image'] ==
+                                                            null)
+                                                        ? const Text(
+                                                            'لايوجد صورة للموظف')
+                                                        : Image.network(
+                                                            cubit.departmentTeacher[
+                                                                index]['image'],
+                                                            width: 150,
+                                                            scale: 1,
+                                                          ),
+
                                                 Text(
                                                   cubit.departmentTeacher[index]
                                                       ['name'],
@@ -319,16 +333,17 @@ class NewTeakOff extends StatelessWidget {
                                                                 builder:
                                                                     (context) =>
                                                                         Directionality(
-                                                                          textDirection: TextDirection.rtl,
-                                                                          child: AlertDialog(
+                                                                          textDirection:
+                                                                              TextDirection.rtl,
+                                                                          child:
+                                                                              AlertDialog(
                                                                             // titlePadding: const EdgeInsets.symmetric(horizontal: 0),
                                                                             elevation:
                                                                                 10,
 
                                                                             content:
                                                                                 Column(
-                                                                              mainAxisSize:
-                                                                                  MainAxisSize.min,
+                                                                              mainAxisSize: MainAxisSize.min,
                                                                               children: [
                                                                                 const Padding(
                                                                                   padding: EdgeInsets.all(30.0),
