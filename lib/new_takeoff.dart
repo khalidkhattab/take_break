@@ -1,5 +1,6 @@
 import 'package:first_app/model.dart';
 import 'package:first_app/pdf_generate.dart';
+import 'package:first_app/pdf_test.dart';
 import 'package:first_app/poppages/add_new_break.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,8 +87,9 @@ class NewTeakOff extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                         onPressed: () {
-                          cubit.pickImage();
+                          //cubit.pickImage();
                           // PdfServices().printMyPdf(cubit);
+                          generateInvoice();
                         },
                         icon: const Icon(
                           Icons.camera,
