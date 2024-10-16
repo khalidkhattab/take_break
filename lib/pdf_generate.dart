@@ -23,9 +23,9 @@ class PdfService {
     //Add the rows to the grid
     PdfGridRow header = grid.headers[0];
     header.cells[0].value = "date";
-    header.cells[1].value = "leave time";
-    header.cells[2].value = "back time";
-    header.cells[3].value = "dep";
+    header.cells[1].value = "cid";
+    header.cells[2].value = "Leave Time";
+    header.cells[3].value = "Return Time";
     header.cells[4].value = "note";
     //Add header style
     header.style = PdfGridCellStyle(
@@ -39,8 +39,8 @@ class PdfService {
       PdfGridRow row = grid.rows.add();
       row.cells[0].value = currentBreak['date'];
       row.cells[1].value = currentBreak['cid'];
-      row.cells[2].value = currentBreak['returnTime'];
-      row.cells[3].value = currentBreak['leaveTime'];
+      row.cells[2].value = currentBreak['leaveTime'];
+      row.cells[3].value = currentBreak['returnTime'];
       row.cells[4].value = "";
     }
     //Add rows style

@@ -290,7 +290,7 @@ class NewTeakOff extends StatelessWidget {
                                                         : Image.network(
                                                             cubit.departmentTeacher[
                                                                 index]['image'],
-                                                            width: 150,
+                                                            width: 120,
                                                             scale: 1,
                                                           ),
 
@@ -345,9 +345,9 @@ class NewTeakOff extends StatelessWidget {
                                                                                 Column(
                                                                               mainAxisSize: MainAxisSize.min,
                                                                               children: [
-                                                                                const Padding(
-                                                                                  padding: EdgeInsets.all(30.0),
-                                                                                  child: Image(image: AssetImage('images/me2.png'), width: 160),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(30.0),
+                                                                                  child: Image.network(cubit.departmentTeacher[index]['image'], width: 200,),
                                                                                 ),
                                                                                 Padding(
                                                                                   padding: const EdgeInsets.symmetric(vertical: 20),
